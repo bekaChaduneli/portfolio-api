@@ -11,22 +11,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  USER
-  ADMIN
+model User {
+  id       String  @id @default(cuid())
+  email    String  @unique
+  password String
+  role     Role    @default(ADMIN)
 }
 
-model User {
-  id               String  @id @default(uuid())
-  email            String  @unique
-  name             String?
-  phone            String? @unique
-  personalId       String? @unique
-  password         String?
-  picture          String?
-  verificationCode String?
-  isVerified       Boolean @default(false)
-  role             Role    @default(USER)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @default(now()) @updatedAt
+enum Role {
+  ADMIN
 }

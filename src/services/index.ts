@@ -1,1 +1,1 @@
-export * from "./emailservice";
+export {};

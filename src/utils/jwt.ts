@@ -10,7 +10,7 @@ function generateAccessToken(user: User): string {
   return jwt.sign({ userId: user.id }, process.env.JWT_ACCESS_SECRET);
 }
 
-export async function hasSuperAdminPermission(
+export async function hasAdminPermission(
   accessToken: string | undefined
 ): Promise<boolean> {
   try {
@@ -34,14 +34,10 @@ export async function hasSuperAdminPermission(
 
     const user = await prisma.user.findUnique({
       where: { id: decoded.userId },
-      select: { role: true },
+      select: { id: true },
     });
 
-    if (!user) {
-      return false;
-    }
-
-    return user.role === "ADMIN";
+    return !!user;
   } catch (error) {
     return false;
   }
