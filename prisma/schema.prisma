@@ -23,53 +23,91 @@ model User {
 }
 
 model Books {
-  id          String   @id @default(cuid())
-  title       String   @unique
-  pages       String
-  readedPages String
+  id           String              @id @default(cuid())
+  pages        String
+  readedPages  String
+  image        String              @default("")
+  releaseDate  DateTime
+  link         String
+  translations BooksTranslations[]
+}
+
+model BooksTranslations {
+  id          String  @id @default(cuid())
+  title       String
   description String
-  image       String   @default("")
-  relaseDate  DateTime
   author      String
-  link        String
+  booksId     String?
+  Books       Books?  @relation(fields: [booksId], references: [id], onDelete: Cascade)
 }
 
 model GithubRepos {
-  id          String @id @default(cuid())
-  title       String @unique
-  description String
-  link        String
-  stars       String
-  language    String
+  id           String                    @id @default(cuid())
+  link         String
+  stars        String
+  language     String
+  translations GithubReposTranslations[]
+}
+
+model GithubReposTranslations {
+  id            String       @id @default(cuid())
+  title         String
+  description   String
+  githubReposId String?
+  GithubRepos   GithubRepos? @relation(fields: [githubReposId], references: [id], onDelete: Cascade)
 }
 
 model Linkedin {
-  name       String      @unique
+  id           String                 @id @default(uuid())
+  image        String
+  banner       String
+  link         String
+  translations LinkedinTranslations[]
+  posts        Posts[]
+  topSkills    TopSkills[]
+}
+
+model LinkedinTranslations {
+  id         String    @id @default(cuid())
+  name       String
   bio        String
-  image      String
-  banner     String
   company    String
   university String
-  link       String
-  topSkils   TopSkills[]
-  posts      Posts[]
+  linkedinId String?
+  Linkedin   Linkedin? @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
 }
 
 model Posts {
-  id           String    @id @default(uuid())
-  Linkedin     Linkedin? @relation(fields: [linkedinName], references: [name])
-  linkedinName String?
-  createdAt    DateTime  @default(now())
-  description  String
+  id           String              @id @default(uuid())
+  linkedinId   String?
+  Linkedin     Linkedin?           @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
+  createdAt    DateTime            @default(now())
   image        String?
   likes        String
   commentsSum  String
   link         String
+  translations PostsTranslations[]
+}
+
+model PostsTranslations {
+  id           String  @id @default(cuid())
+  linkedinName String
+  description  String
+  postsId      String?
+  Posts        Posts?  @relation(fields: [postsId], references: [id], onDelete: Cascade)
 }
 
 model TopSkills {
-  id           String    @id @default(uuid())
-  linkedin     Linkedin? @relation(fields: [linkedinName], references: [name])
-  linkedinName String    @unique
-  name         String    @unique
+  id           String                  @id @default(uuid())
+  linkedinId   String?
+  Linkedin     Linkedin?               @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
+  translations TopSkillsTranslations[]
+}
+
+model TopSkillsTranslations {
+  id           String     @id @default(cuid())
+  linkedinName String
+  name         String
+  topSkillsId  String?
+  TopSkills    TopSkills? @relation(fields: [topSkillsId], references: [id], onDelete: Cascade)
 }
