@@ -29,6 +29,7 @@ model Books {
   image        String              @default("")
   releaseDate  DateTime
   link         String
+  finished     Boolean
   translations BooksTranslations[]
 }
 

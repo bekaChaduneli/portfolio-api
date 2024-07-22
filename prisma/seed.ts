@@ -6,15 +6,16 @@ const prisma = new PrismaClient();
 
 async function main() {
   for (const mail of superEmails) {
-    await prisma.user.upsert({
-      where: { email: mail },
-      update: {},
-      create: {
-        email: mail,
-        password: hashToken("SuperAdmin321321!"),
-        role: "ADMIN", // Ensure role is set to ADMIN
-      },
-    });
+    process.env.password &&
+      (await prisma.user.upsert({
+        where: { email: mail },
+        update: {},
+        create: {
+          email: mail,
+          password: hashToken(process.env.password),
+          role: "ADMIN",
+        },
+      }));
   }
 }
 
