@@ -11,13 +11,202 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       String  @id @default(cuid())
-  email    String  @unique
-  password String
-  role     Role    @default(ADMIN)
-}
-
 enum Role {
   ADMIN
+}
+
+model User {
+  id       String @id @default(cuid())
+  email    String @unique
+  password String
+  role     Role   @default(ADMIN)
+}
+
+model Books {
+  id           String              @id @default(cuid())
+  pages        String
+  readedPages  String
+  image        String              @default("")
+  releaseDate  DateTime
+  link         String
+  finished     Boolean
+  translations BooksTranslations[]
+}
+
+model BooksTranslations {
+  id           String  @id @default(cuid())
+  title        String
+  description  String
+  author       String
+  languageCode String
+  booksId      String?
+  Books        Books?  @relation(fields: [booksId], references: [id], onDelete: Cascade)
+}
+
+model GithubRepos {
+  id           String                    @id @default(cuid())
+  link         String
+  stars        String
+  language     String
+  translations GithubReposTranslations[]
+}
+
+model GithubReposTranslations {
+  id            String       @id @default(cuid())
+  title         String
+  description   String
+  languageCode  String
+  githubReposId String?
+  GithubRepos   GithubRepos? @relation(fields: [githubReposId], references: [id], onDelete: Cascade)
+}
+
+model Linkedin {
+  id           String                 @id @default(uuid())
+  image        String
+  banner       String
+  link         String
+  translations LinkedinTranslations[]
+  posts        Posts[]
+  topSkills    TopSkills[]
+}
+
+model LinkedinTranslations {
+  id           String    @id @default(cuid())
+  name         String
+  bio          String
+  company      String
+  languageCode String
+  university   String
+  linkedinId   String?
+  Linkedin     Linkedin? @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
+}
+
+model Posts {
+  id           String              @id @default(uuid())
+  linkedinId   String?
+  Linkedin     Linkedin?           @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
+  createdAt    DateTime            @default(now())
+  image        String?
+  likes        String
+  commentsSum  String
+  link         String
+  translations PostsTranslations[]
+}
+
+model PostsTranslations {
+  id           String  @id @default(cuid())
+  linkedinName String
+  languageCode String
+  description  String
+  postsId      String?
+  Posts        Posts?  @relation(fields: [postsId], references: [id], onDelete: Cascade)
+}
+
+model TopSkills {
+  id           String                  @id @default(uuid())
+  linkedinId   String?
+  Linkedin     Linkedin?               @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
+  translations TopSkillsTranslations[]
+}
+
+model TopSkillsTranslations {
+  id           String     @id @default(cuid())
+  linkedinName String
+  languageCode String
+  name         String
+  topSkillsId  String?
+  TopSkills    TopSkills? @relation(fields: [topSkillsId], references: [id], onDelete: Cascade)
+}
+
+model Profile {
+  id           String                @id @default(cuid())
+  age          String
+  resume       String
+  Image        String
+  socials      Socials[]
+  translations ProfileTranslations[]
+  mail         String
+}
+
+model ProfileTranslations {
+  id String @id @default(cuid())
+
+  name            String
+  surname         String
+  languageCode    String
+  profession      String
+  location        String
+  experience      String
+  works           ProfileWorks[]
+  university      String
+  universityAbout String
+  aboutMe         String
+  Profile         Profile?       @relation(fields: [profileId], references: [id])
+  profileId       String?
+  hobbys          Hobbys[]
+  questions       Questions[]
+}
+
+model Questions {
+  id String @id @default(cuid())
+
+  ProfileTranslations   ProfileTranslations?    @relation(fields: [profileTranslationsId], references: [id])
+  profileTranslationsId String?
+  translations          QuestionsTranslations[]
+}
+
+model QuestionsTranslations {
+  id           String     @id @default(cuid())
+  languageCode String
+  question     String
+  answer       String
+  Questions    Questions? @relation(fields: [questionsId], references: [id])
+  questionsId  String?
+}
+
+model Hobbys {
+  id String @id @default(cuid())
+
+  ProfileTranslations   ProfileTranslations? @relation(fields: [profileTranslationsId], references: [id])
+  profileTranslationsId String?
+  translations          HobbysTranslations[]
+  image                 String
+}
+
+model HobbysTranslations {
+  id           String  @id @default(cuid())
+  hobby        String
+  languageCode String
+  aboutHobby   String
+  Hobbys       Hobbys? @relation(fields: [hobbysId], references: [id])
+  hobbysId     String?
+}
+
+model ProfileWorks {
+  id String @id @default(cuid())
+
+  workLogo              String
+  fromDate              String
+  toDate                String
+  translations          ProfileWorksTranslations[]
+  ProfileTranslations   ProfileTranslations?       @relation(fields: [profileTranslationsId], references: [id])
+  profileTranslationsId String?
+}
+
+model ProfileWorksTranslations {
+  id             String        @id @default(cuid())
+  languageCode   String
+  ProfileWorks   ProfileWorks? @relation(fields: [profileWorksId], references: [id])
+  profileWorksId String?
+  work           String
+  workAbout      String
+  position       String
+}
+
+model Socials {
+  id        String   @id @default(cuid())
+  profileId String?
+  profile   Profile? @relation(fields: [profileId], references: [id])
+  name      String
+  link      String
 }
