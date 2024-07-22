@@ -26,8 +26,8 @@ model Books {
   id           String              @id @default(cuid())
   pages        String
   readedPages  String
-  image        String              @default("")
-  releaseDate  DateTime
+  image        String
+  releaseDate  DateTime            @default(now())
   link         String
   finished     Boolean
   translations BooksTranslations[]
@@ -41,6 +41,8 @@ model BooksTranslations {
   languageCode String
   booksId      String?
   Books        Books?  @relation(fields: [booksId], references: [id], onDelete: Cascade)
+
+  @@unique([booksId, languageCode])
 }
 
 model GithubRepos {
@@ -56,8 +58,10 @@ model GithubReposTranslations {
   title         String
   description   String
   languageCode  String
-  githubReposId String?
+  githubReposId String
   GithubRepos   GithubRepos? @relation(fields: [githubReposId], references: [id], onDelete: Cascade)
+
+  @@unique([githubReposId, languageCode])
 }
 
 model Linkedin {
@@ -71,20 +75,22 @@ model Linkedin {
 }
 
 model LinkedinTranslations {
-  id           String    @id @default(cuid())
+  id           String   @id @default(cuid())
   name         String
   bio          String
   company      String
   languageCode String
   university   String
-  linkedinId   String?
-  Linkedin     Linkedin? @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
+  linkedinId   String
+  Linkedin     Linkedin @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
+
+  @@unique([linkedinId, languageCode])
 }
 
 model Posts {
   id           String              @id @default(uuid())
-  linkedinId   String?
-  Linkedin     Linkedin?           @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
+  linkedinId   String              @unique
+  Linkedin     Linkedin            @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
   createdAt    DateTime            @default(now())
   image        String?
   likes        String
@@ -94,18 +100,20 @@ model Posts {
 }
 
 model PostsTranslations {
-  id           String  @id @default(cuid())
+  id           String @id @default(cuid())
   linkedinName String
   languageCode String
   description  String
-  postsId      String?
-  Posts        Posts?  @relation(fields: [postsId], references: [id], onDelete: Cascade)
+  postsId      String
+  Posts        Posts  @relation(fields: [postsId], references: [id], onDelete: Cascade)
+
+  @@unique([postsId, languageCode])
 }
 
 model TopSkills {
   id           String                  @id @default(uuid())
-  linkedinId   String?
-  Linkedin     Linkedin?               @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
+  linkedinId   String                  @unique
+  Linkedin     Linkedin                @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
   translations TopSkillsTranslations[]
 }
 
@@ -114,8 +122,10 @@ model TopSkillsTranslations {
   linkedinName String
   languageCode String
   name         String
-  topSkillsId  String?
+  topSkillsId  String
   TopSkills    TopSkills? @relation(fields: [topSkillsId], references: [id], onDelete: Cascade)
+
+  @@unique([topSkillsId, languageCode])
 }
 
 model Profile {
@@ -141,17 +151,19 @@ model ProfileTranslations {
   university      String
   universityAbout String
   aboutMe         String
-  Profile         Profile?       @relation(fields: [profileId], references: [id])
-  profileId       String?
+  Profile         Profile?       @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId       String
   hobbys          Hobbys[]
   questions       Questions[]
+
+  @@unique([profileId, languageCode])
 }
 
 model Questions {
   id String @id @default(cuid())
 
-  ProfileTranslations   ProfileTranslations?    @relation(fields: [profileTranslationsId], references: [id])
-  profileTranslationsId String?
+  ProfileTranslations   ProfileTranslations?    @relation(fields: [profileTranslationsId], references: [id], onDelete: Cascade)
+  profileTranslationsId String                  @unique
   translations          QuestionsTranslations[]
 }
 
@@ -160,15 +172,17 @@ model QuestionsTranslations {
   languageCode String
   question     String
   answer       String
-  Questions    Questions? @relation(fields: [questionsId], references: [id])
-  questionsId  String?
+  Questions    Questions? @relation(fields: [questionsId], references: [id], onDelete: Cascade)
+  questionsId  String
+
+  @@unique([questionsId, languageCode])
 }
 
 model Hobbys {
   id String @id @default(cuid())
 
   ProfileTranslations   ProfileTranslations? @relation(fields: [profileTranslationsId], references: [id])
-  profileTranslationsId String?
+  profileTranslationsId String               @unique
   translations          HobbysTranslations[]
   image                 String
 }
@@ -179,7 +193,9 @@ model HobbysTranslations {
   languageCode String
   aboutHobby   String
   Hobbys       Hobbys? @relation(fields: [hobbysId], references: [id])
-  hobbysId     String?
+  hobbysId     String
+
+  @@unique([hobbysId, languageCode])
 }
 
 model ProfileWorks {
@@ -190,22 +206,24 @@ model ProfileWorks {
   toDate                String
   translations          ProfileWorksTranslations[]
   ProfileTranslations   ProfileTranslations?       @relation(fields: [profileTranslationsId], references: [id])
-  profileTranslationsId String?
+  profileTranslationsId String                     @unique
 }
 
 model ProfileWorksTranslations {
   id             String        @id @default(cuid())
   languageCode   String
   ProfileWorks   ProfileWorks? @relation(fields: [profileWorksId], references: [id])
-  profileWorksId String?
+  profileWorksId String
   work           String
   workAbout      String
   position       String
+
+  @@unique([profileWorksId, languageCode])
 }
 
 model Socials {
   id        String   @id @default(cuid())
-  profileId String?
+  profileId String   @unique
   profile   Profile? @relation(fields: [profileId], references: [id])
   name      String
   link      String
