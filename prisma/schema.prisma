@@ -11,13 +11,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       String  @id @default(cuid())
-  email    String  @unique
-  password String
-  role     Role    @default(ADMIN)
-}
-
 enum Role {
   ADMIN
+}
+
+model User {
+  id       String @id @default(cuid())
+  email    String @unique
+  password String
+  role     Role   @default(ADMIN)
+}
+
+model Books {
+  id          String   @id @default(cuid())
+  title       String   @unique
+  pages       String
+  readedPages String
+  description String
+  image       String   @default("")
+  relaseDate  DateTime
+  author      String
+  link        String
 }
