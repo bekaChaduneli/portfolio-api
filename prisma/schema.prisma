@@ -33,3 +33,12 @@ model Books {
   author      String
   link        String
 }
+
+model GithubRepos {
+  id          String @id @default(cuid())
+  title       String @unique
+  description String
+  link        String
+  stars       String
+  language    String
+}
