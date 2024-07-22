@@ -42,3 +42,34 @@ model GithubRepos {
   stars       String
   language    String
 }
+
+model Linkedin {
+  name       String      @unique
+  bio        String
+  image      String
+  banner     String
+  company    String
+  university String
+  link       String
+  topSkils   TopSkills[]
+  posts      Posts[]
+}
+
+model Posts {
+  id           String    @id @default(uuid())
+  Linkedin     Linkedin? @relation(fields: [linkedinName], references: [name])
+  linkedinName String?
+  createdAt    DateTime  @default(now())
+  description  String
+  image        String?
+  likes        String
+  commentsSum  String
+  link         String
+}
+
+model TopSkills {
+  id           String    @id @default(uuid())
+  linkedin     Linkedin? @relation(fields: [linkedinName], references: [name])
+  linkedinName String    @unique
+  name         String    @unique
+}
