@@ -242,8 +242,7 @@ model HobbysTranslations {
 }
 
 model ProfileWorks {
-  id String @id @default(cuid())
-
+  id                    String                     @id @default(cuid())
   workLogo              String
   fromDate              String
   toDate                String
@@ -340,4 +339,29 @@ model ArchiveTranslations {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([archiveId, languageCode])
+}
+
+model Skills {
+  id           String               @id @default(cuid())
+  link         String
+  color        String
+  image        String
+  translations SkillsTranslations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model SkillsTranslations {
+  id           String @id @default(cuid())
+  languageCode String
+  name         String
+  about        String
+  skills       Skills @relation(fields: [skillsId], references: [id])
+  skillsId     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([skillsId, languageCode])
 }
