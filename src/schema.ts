@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
-import { resolvers } from "@generated/type-graphql";
 import * as CustomResolvers from "./resolvers";
+import { resolvers } from "@generated/type-graphql";
 
 export const buildGqlSchema = async () => {
   // Convert CustomResolvers to an array of functions

@@ -280,3 +280,64 @@ model Socials {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
+
+model MainProjects {
+  id                String   @id @default(cuid())
+  background        String
+  mobileBackgrounds String[]
+  link              String
+  video             String[]
+  images            String[]
+  skills            String[]
+  github            String
+
+  translations MainProjectsTranslations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MainProjectsTranslations {
+  id             String       @id @default(cuid())
+  languageCode   String
+  description    String
+  name           String
+  about          String
+  location       String
+  mainProjects   MainProjects @relation(fields: [mainProjectsId], references: [id])
+  mainProjectsId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  archiveId String?
+
+  @@unique([mainProjectsId, languageCode])
+}
+
+model Archive {
+  id         String @id @default(cuid())
+  link       String
+  github     String
+  background String
+
+  skills       String[]
+  translations ArchiveTranslations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model ArchiveTranslations {
+  id           String  @id @default(cuid())
+  languageCode String
+  description  String
+  name         String
+  archive      Archive @relation(fields: [archiveId], references: [id])
+  archiveId    String
+  location     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([archiveId, languageCode])
+}
