@@ -11,19 +11,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  ADMIN
-}
-
-model User {
+model Admin {
   id       String @id @default(cuid())
   email    String @unique
   password String
-  role     Role   @default(ADMIN)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Books {
   id           String              @id @default(cuid())
+  index        Int                 @unique @default(autoincrement())
   pages        String
   readedPages  String
   image        String
@@ -40,7 +39,10 @@ model BooksTranslations {
   author       String
   languageCode String
   booksId      String?
-  Books        Books?  @relation(fields: [booksId], references: [id], onDelete: Cascade)
+  books        Books?  @relation(fields: [booksId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([booksId, languageCode])
 }
@@ -51,15 +53,21 @@ model GithubRepos {
   stars        String
   language     String
   translations GithubReposTranslations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model GithubReposTranslations {
-  id            String       @id @default(cuid())
+  id            String      @id @default(cuid())
   title         String
   description   String
   languageCode  String
   githubReposId String
-  GithubRepos   GithubRepos? @relation(fields: [githubReposId], references: [id], onDelete: Cascade)
+  githubRepos   GithubRepos @relation(fields: [githubReposId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([githubReposId, languageCode])
 }
@@ -72,6 +80,9 @@ model Linkedin {
   translations LinkedinTranslations[]
   posts        Posts[]
   topSkills    TopSkills[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model LinkedinTranslations {
@@ -82,7 +93,10 @@ model LinkedinTranslations {
   languageCode String
   university   String
   linkedinId   String
-  Linkedin     Linkedin @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
+  linkedin     Linkedin @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([linkedinId, languageCode])
 }
@@ -90,13 +104,15 @@ model LinkedinTranslations {
 model Posts {
   id           String              @id @default(uuid())
   linkedinId   String              @unique
-  Linkedin     Linkedin            @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
-  createdAt    DateTime            @default(now())
+  linkedin     Linkedin            @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
   image        String?
   likes        String
   commentsSum  String
   link         String
   translations PostsTranslations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model PostsTranslations {
@@ -105,7 +121,10 @@ model PostsTranslations {
   languageCode String
   description  String
   postsId      String
-  Posts        Posts  @relation(fields: [postsId], references: [id], onDelete: Cascade)
+  posts        Posts  @relation(fields: [postsId], references: [id], onDelete: Cascade)
+
+  reatedAt  DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([postsId, languageCode])
 }
@@ -113,8 +132,11 @@ model PostsTranslations {
 model TopSkills {
   id           String                  @id @default(uuid())
   linkedinId   String                  @unique
-  Linkedin     Linkedin                @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
+  linkedin     Linkedin                @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
   translations TopSkillsTranslations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model TopSkillsTranslations {
@@ -123,7 +145,10 @@ model TopSkillsTranslations {
   languageCode String
   name         String
   topSkillsId  String
-  TopSkills    TopSkills? @relation(fields: [topSkillsId], references: [id], onDelete: Cascade)
+  topSkills    TopSkills? @relation(fields: [topSkillsId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([topSkillsId, languageCode])
 }
@@ -136,6 +161,9 @@ model Profile {
   socials      Socials[]
   translations ProfileTranslations[]
   mail         String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model ProfileTranslations {
@@ -151,10 +179,13 @@ model ProfileTranslations {
   university      String
   universityAbout String
   aboutMe         String
-  Profile         Profile?       @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile         Profile        @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId       String
   hobbys          Hobbys[]
   questions       Questions[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([profileId, languageCode])
 }
@@ -162,18 +193,24 @@ model ProfileTranslations {
 model Questions {
   id String @id @default(cuid())
 
-  ProfileTranslations   ProfileTranslations?    @relation(fields: [profileTranslationsId], references: [id], onDelete: Cascade)
+  profileTranslations   ProfileTranslations     @relation(fields: [profileTranslationsId], references: [id], onDelete: Cascade)
   profileTranslationsId String                  @unique
   translations          QuestionsTranslations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model QuestionsTranslations {
-  id           String     @id @default(cuid())
+  id           String    @id @default(cuid())
   languageCode String
   question     String
   answer       String
-  Questions    Questions? @relation(fields: [questionsId], references: [id], onDelete: Cascade)
+  questions    Questions @relation(fields: [questionsId], references: [id], onDelete: Cascade)
   questionsId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([questionsId, languageCode])
 }
@@ -181,50 +218,176 @@ model QuestionsTranslations {
 model Hobbys {
   id String @id @default(cuid())
 
-  ProfileTranslations   ProfileTranslations? @relation(fields: [profileTranslationsId], references: [id])
+  profileTranslations   ProfileTranslations  @relation(fields: [profileTranslationsId], references: [id])
   profileTranslationsId String               @unique
   translations          HobbysTranslations[]
   image                 String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model HobbysTranslations {
-  id           String  @id @default(cuid())
+  id           String @id @default(cuid())
   hobby        String
   languageCode String
   aboutHobby   String
-  Hobbys       Hobbys? @relation(fields: [hobbysId], references: [id])
+  hobbys       Hobbys @relation(fields: [hobbysId], references: [id])
   hobbysId     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([hobbysId, languageCode])
 }
 
 model ProfileWorks {
-  id String @id @default(cuid())
-
+  id                    String                     @id @default(cuid())
   workLogo              String
   fromDate              String
   toDate                String
   translations          ProfileWorksTranslations[]
-  ProfileTranslations   ProfileTranslations?       @relation(fields: [profileTranslationsId], references: [id])
+  profileTranslations   ProfileTranslations        @relation(fields: [profileTranslationsId], references: [id])
   profileTranslationsId String                     @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model ProfileWorksTranslations {
-  id             String        @id @default(cuid())
+  id             String       @id @default(cuid())
   languageCode   String
-  ProfileWorks   ProfileWorks? @relation(fields: [profileWorksId], references: [id])
+  profileWorks   ProfileWorks @relation(fields: [profileWorksId], references: [id])
   profileWorksId String
   work           String
   workAbout      String
   position       String
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
   @@unique([profileWorksId, languageCode])
 }
 
 model Socials {
-  id        String   @id @default(cuid())
-  profileId String   @unique
-  profile   Profile? @relation(fields: [profileId], references: [id])
+  id        String  @id @default(cuid())
+  profileId String  @unique
+  profile   Profile @relation(fields: [profileId], references: [id])
   name      String
   link      String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MainProjects {
+  id                String   @id @default(cuid())
+  background        String
+  mobileBackgrounds String[]
+  link              String
+  video             String[]
+  images            String[]
+  skills            String[]
+  github            String
+
+  translations MainProjectsTranslations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model MainProjectsTranslations {
+  id             String       @id @default(cuid())
+  languageCode   String
+  description    String
+  name           String
+  about          String
+  location       String
+  mainProjects   MainProjects @relation(fields: [mainProjectsId], references: [id])
+  mainProjectsId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  archiveId String?
+
+  @@unique([mainProjectsId, languageCode])
+}
+
+model Archive {
+  id         String @id @default(cuid())
+  link       String
+  github     String
+  background String
+
+  skills       String[]
+  translations ArchiveTranslations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model ArchiveTranslations {
+  id           String  @id @default(cuid())
+  languageCode String
+  description  String
+  name         String
+  archive      Archive @relation(fields: [archiveId], references: [id])
+  archiveId    String
+  location     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([archiveId, languageCode])
+}
+
+model Skills {
+  id           String               @id @default(cuid())
+  link         String
+  color        String
+  image        String
+  translations SkillsTranslations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model SkillsTranslations {
+  id           String @id @default(cuid())
+  languageCode String
+  name         String
+  about        String
+  skills       Skills @relation(fields: [skillsId], references: [id])
+  skillsId     String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([skillsId, languageCode])
+}
+
+model Blogs {
+  id         String @id @default(cuid())
+  link       String
+  background String
+
+  translations BlogsTranslations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model BlogsTranslations {
+  id           String @id @default(cuid())
+  languageCode String
+
+  headline String
+  about    String
+
+  blogs     Blogs    @relation(fields: [blogsId], references: [id])
+  blogsId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([blogsId, languageCode])
 }
