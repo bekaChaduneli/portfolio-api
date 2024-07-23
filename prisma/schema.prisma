@@ -365,3 +365,29 @@ model SkillsTranslations {
 
   @@unique([skillsId, languageCode])
 }
+
+model Blogs {
+  id         String @id @default(cuid())
+  link       String
+  background String
+
+  translations BlogsTranslations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model BlogsTranslations {
+  id           String @id @default(cuid())
+  languageCode String
+
+  headline String
+  about    String
+
+  blogs     Blogs    @relation(fields: [blogsId], references: [id])
+  blogsId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([blogsId, languageCode])
+}
