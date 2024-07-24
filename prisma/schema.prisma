@@ -391,3 +391,26 @@ model BlogsTranslations {
 
   @@unique([blogsId, languageCode])
 }
+
+model Services {
+  id           String                 @id @default(cuid())
+  translations ServicesTranslations[]
+  background   String
+  order        String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model ServicesTranslations {
+  id           String   @id @default(cuid())
+  languageCode String
+  services     Services @relation(fields: [servicesId], references: [id], onDelete: Cascade)
+  servicesId   String
+  name         String
+  description  String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+
+  @@unique([servicesId, languageCode])
+}
