@@ -557,3 +557,27 @@ model CertificatesTranslations {
 
   @@unique([certificatesId, languageCode])
 }
+
+model Recommendations {
+  id           String                        @id @default(cuid())
+  translations RecommendationsTranslations[]
+  createdAt    DateTime                      @default(now())
+  image        String
+  date         DateTime
+  updatedAt    DateTime                      @default(now()) @updatedAt
+}
+
+model RecommendationsTranslations {
+  id                String          @id @default(cuid())
+  languageCode      String
+  recommendations   Recommendations @relation(fields: [recommendationsId], references: [id], onDelete: Cascade)
+  recommendationsId String
+  name              String
+  bio               String
+  role              String
+  description       String
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @default(now()) @updatedAt
+
+  @@unique([recommendationsId, languageCode])
+}
