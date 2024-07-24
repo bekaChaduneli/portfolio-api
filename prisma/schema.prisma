@@ -25,6 +25,7 @@ model Books {
   index        Int                 @unique @default(autoincrement())
   pages        String
   readedPages  String
+  type         String
   image        String
   releaseDate  DateTime            @default(now())
   link         String
@@ -413,4 +414,146 @@ model ServicesTranslations {
   updatedAt    DateTime @default(now()) @updatedAt
 
   @@unique([servicesId, languageCode])
+}
+
+model AboutMe {
+  id           String                @id @default(cuid())
+  translations AboutMeTranslations[]
+  image        String
+  experience   String
+  age          String
+  projectNum   String
+  works        Works[]
+  education    Educations[]
+  languages    Languages[]
+  certificates Certificates[]
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @default(now()) @updatedAt
+}
+
+model AboutMeTranslations {
+  id           String  @id @default(cuid())
+  languageCode String
+  aboutMe      AboutMe @relation(fields: [aboutMeId], references: [id], onDelete: Cascade)
+  aboutMeId    String
+  name         String
+  about        String
+  role         String
+  country      String
+  city         String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([aboutMeId, languageCode])
+}
+
+model Works {
+  id           String              @id @default(cuid())
+  aboutMe      AboutMe             @relation(fields: [aboutMeId], references: [id])
+  aboutMeId    String              @unique
+  translations WorksTranslations[]
+  link         String
+  fromDate     DateTime
+  toDate       DateTime
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @default(now()) @updatedAt
+}
+
+model WorksTranslations {
+  id             String @id @default(cuid())
+  languageCode   String
+  works          Works  @relation(fields: [worksId], references: [id], onDelete: Cascade)
+  worksId        String
+  company        String
+  role           String
+  description    String
+  location       String
+  locationType   String
+  employmentType String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([worksId, languageCode])
+}
+
+model Educations {
+  id           String                   @id @default(cuid())
+  aboutMe      AboutMe                  @relation(fields: [aboutMeId], references: [id])
+  aboutMeId    String                   @unique
+  translations EducationsTranslations[]
+  link         String
+  fromDate     DateTime
+  toDate       DateTime
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @default(now()) @updatedAt
+}
+
+model EducationsTranslations {
+  id           String     @id @default(cuid())
+  languageCode String
+  educations   Educations @relation(fields: [educationsId], references: [id], onDelete: Cascade)
+  educationsId String
+  name         String
+  degree       String
+  fieldOfStudy String
+  gpa          String?
+  description  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([educationsId, languageCode])
+}
+
+model Languages {
+  id           String                  @id @default(cuid())
+  aboutMe      AboutMe                 @relation(fields: [aboutMeId], references: [id])
+  aboutMeId    String                  @unique
+  translations LanguagesTranslations[]
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @default(now()) @updatedAt
+}
+
+model LanguagesTranslations {
+  id           String    @id @default(cuid())
+  languageCode String
+  languages    Languages @relation(fields: [languagesId], references: [id], onDelete: Cascade)
+  languagesId  String
+  name         String
+  description  String
+  level        String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([languagesId, languageCode])
+}
+
+model Certificates {
+  id             String                     @id @default(cuid())
+  aboutMe        AboutMe                    @relation(fields: [aboutMeId], references: [id])
+  aboutMeId      String                     @unique
+  translations   CertificatesTranslations[]
+  link           String
+  image          String
+  issueDate      DateTime
+  expirationDate String
+  createdAt      DateTime                   @default(now())
+  updatedAt      DateTime                   @default(now()) @updatedAt
+}
+
+model CertificatesTranslations {
+  id             String       @id @default(cuid())
+  languageCode   String
+  certificates   Certificates @relation(fields: [certificatesId], references: [id], onDelete: Cascade)
+  certificatesId String
+  name           String
+  organiation    String
+  description    String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
+
+  @@unique([certificatesId, languageCode])
 }
