@@ -5,14 +5,15 @@ const prisma = new PrismaClient();
 
 async function main() {
   for (const mail of superEmails) {
-    await prisma.admin.upsert({
-      where: { email: mail },
-      update: {},
-      create: {
-        email: mail,
-        password: hashToken("SuperAdmin321321!"),
-      },
-    });
+    process.env.password &&
+      (await prisma.admin.upsert({
+        where: { email: mail },
+        update: {},
+        create: {
+          email: mail,
+          password: hashToken(process.env.password),
+        },
+      }));
   }
 }
 

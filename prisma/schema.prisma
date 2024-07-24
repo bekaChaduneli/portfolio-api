@@ -232,7 +232,7 @@ model HobbysTranslations {
   hobby        String
   languageCode String
   aboutHobby   String
-  hobbys       Hobbys @relation(fields: [hobbysId], references: [id])
+  hobbys       Hobbys @relation(fields: [hobbysId], references: [id], onDelete: Cascade)
   hobbysId     String
 
   createdAt DateTime @default(now())
@@ -257,7 +257,7 @@ model ProfileWorks {
 model ProfileWorksTranslations {
   id             String       @id @default(cuid())
   languageCode   String
-  profileWorks   ProfileWorks @relation(fields: [profileWorksId], references: [id])
+  profileWorks   ProfileWorks @relation(fields: [profileWorksId], references: [id], onDelete: Cascade)
   profileWorksId String
   work           String
   workAbout      String
@@ -303,7 +303,7 @@ model MainProjectsTranslations {
   name           String
   about          String
   location       String
-  mainProjects   MainProjects @relation(fields: [mainProjectsId], references: [id])
+  mainProjects   MainProjects @relation(fields: [mainProjectsId], references: [id], onDelete: Cascade)
   mainProjectsId String
 
   createdAt DateTime @default(now())
@@ -331,7 +331,7 @@ model ArchiveTranslations {
   languageCode String
   description  String
   name         String
-  archive      Archive @relation(fields: [archiveId], references: [id])
+  archive      Archive @relation(fields: [archiveId], references: [id], onDelete: Cascade)
   archiveId    String
   location     String
 
@@ -357,7 +357,7 @@ model SkillsTranslations {
   languageCode String
   name         String
   about        String
-  skills       Skills @relation(fields: [skillsId], references: [id])
+  skills       Skills @relation(fields: [skillsId], references: [id], onDelete: Cascade)
   skillsId     String
 
   createdAt DateTime @default(now())
@@ -384,7 +384,7 @@ model BlogsTranslations {
   headline String
   about    String
 
-  blogs     Blogs    @relation(fields: [blogsId], references: [id])
+  blogs     Blogs    @relation(fields: [blogsId], references: [id], onDelete: Cascade)
   blogsId   String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
