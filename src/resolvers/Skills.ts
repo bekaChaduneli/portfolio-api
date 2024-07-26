@@ -165,7 +165,7 @@ export class SkillsResolver {
 
   @Query(() => SkillsResponse, { nullable: true })
   async getSkill(
-    @Arg("id") id: string,
+    @Arg("id", () => String) id: string,
     @Ctx() { prisma }: Context
   ): Promise<SkillsResponse | null> {
     const skill = await prisma.skills.findUnique({ where: { id } });

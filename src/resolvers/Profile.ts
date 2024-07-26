@@ -14,358 +14,358 @@ import { v4 as uuidv4 } from "uuid";
 @InputType()
 class CreateProfileInput {
   @Field(() => String, { nullable: true })
-  age: string | undefined;
+  age?: string;
 
   @Field(() => String, { nullable: true })
-  resume: string | undefined;
+  resume?: string;
 
   @Field(() => String, { nullable: true })
-  Image: string | undefined;
+  Image?: string;
 
   @Field(() => String, { nullable: true })
-  mail: string | undefined;
+  mail?: string;
 
   @Field(() => [CreateProfileTranslationsInput], { nullable: true })
-  translations: CreateProfileTranslationsInput[] | undefined;
+  translations?: CreateProfileTranslationsInput[];
 
   @Field(() => [CreateProfileWorksInput], { nullable: true })
-  works: CreateProfileWorksInput[] | undefined;
+  works?: CreateProfileWorksInput[];
 
   @Field(() => [CreateHobbysInput], { nullable: true })
-  hobbys: CreateHobbysInput[] | undefined;
+  hobbys?: CreateHobbysInput[];
 
   @Field(() => [CreateQuestionsInput], { nullable: true })
-  questions: CreateQuestionsInput[] | undefined;
+  questions?: CreateQuestionsInput[];
 
   @Field(() => [CreateSocialsInput], { nullable: true })
-  socials: CreateSocialsInput[] | undefined;
+  socials?: CreateSocialsInput[];
 }
 
 @InputType()
 class CreateProfileTranslationsInput {
   @Field(() => String, { nullable: true })
-  name: string | undefined;
+  name?: string;
 
   @Field(() => String, { nullable: true })
-  surname: string | undefined;
+  surname?: string;
 
   @Field(() => String, { nullable: true })
-  languageCode: string | undefined;
+  languageCode?: string;
 
   @Field(() => String, { nullable: true })
-  profession: string | undefined;
+  profession?: string;
 
   @Field(() => String, { nullable: true })
-  location: string | undefined;
+  location?: string;
 
   @Field(() => String, { nullable: true })
-  experience: string | undefined;
+  experience?: string;
 
   @Field(() => String, { nullable: true })
-  university: string | undefined;
+  university?: string;
 
   @Field(() => String, { nullable: true })
-  universityAbout: string | undefined;
+  universityAbout?: string;
 
   @Field(() => String, { nullable: true })
-  aboutMe: string | undefined;
+  aboutMe?: string;
 
   @Field(() => [CreateProfileWorksInput], { nullable: true })
-  works: CreateProfileWorksInput[] | undefined;
+  works?: CreateProfileWorksInput[];
 
   @Field(() => [CreateHobbysInput], { nullable: true })
-  hobbys: CreateHobbysInput[] | undefined;
+  hobbys?: CreateHobbysInput[];
 
   @Field(() => [CreateQuestionsInput], { nullable: true })
-  questions: CreateQuestionsInput[] | undefined;
+  questions?: CreateQuestionsInput[];
 
   @Field(() => [CreateSocialsInput], { nullable: true })
-  socials: CreateSocialsInput[] | undefined;
+  socials?: CreateSocialsInput[];
 }
 
 @InputType()
 class CreateSocialsInput {
   @Field(() => String, { nullable: true })
-  profileId: string | undefined;
+  profileId?: string;
 
   @Field(() => String, { nullable: true })
-  name: string | undefined;
+  name?: string;
 
   @Field(() => String, { nullable: true })
-  link: string | undefined;
+  link?: string;
 }
 
 @InputType()
 class UpdateSocialsInput {
   @Field(() => String, { nullable: true })
-  id: string | undefined;
+  id?: string;
 
   @Field(() => String, { nullable: true })
-  profileId: string | undefined;
+  profileId?: string;
 
   @Field(() => String, { nullable: true })
-  name: string | undefined;
+  name?: string;
 
   @Field(() => String, { nullable: true })
-  link: string | undefined;
+  link?: string;
 }
 
 @InputType()
 class CreateProfileWorksInput {
   @Field(() => String, { nullable: true })
-  workLogo: string | undefined;
+  workLogo?: string;
 
   @Field(() => String, { nullable: true })
-  fromDate: string | undefined;
+  fromDate?: string;
 
   @Field(() => String, { nullable: true })
-  toDate: string | undefined;
+  toDate?: string;
 
   @Field(() => [CreateProfileWorksTranslationInput], { nullable: true })
-  translations: CreateProfileWorksTranslationInput[] | undefined;
+  translations?: CreateProfileWorksTranslationInput[];
 }
 
 @InputType()
 class CreateProfileWorksTranslationInput {
   @Field(() => String, { nullable: true })
-  work: string | undefined;
+  work?: string;
 
   @Field(() => String, { nullable: true })
-  workAbout: string | undefined;
+  workAbout?: string;
 
   @Field(() => String, { nullable: true })
-  position: string | undefined;
+  position?: string;
 
   @Field(() => String, { nullable: true })
-  languageCode: string | undefined;
+  languageCode?: string;
 }
 
 @InputType()
 class CreateHobbysInput {
   @Field(() => String, { nullable: true })
-  image: string | undefined;
+  image?: string;
 
   @Field(() => [CreateHobbysTranslationInput], { nullable: true })
-  translations: CreateHobbysTranslationInput[] | undefined;
+  translations?: CreateHobbysTranslationInput[];
 }
 
 @InputType()
 class CreateHobbysTranslationInput {
   @Field(() => String, { nullable: true })
-  hobby: string | undefined;
+  hobby?: string;
 
   @Field(() => String, { nullable: true })
-  aboutHobby: string | undefined;
+  aboutHobby?: string;
 
   @Field(() => String, { nullable: true })
-  languageCode: string | undefined;
+  languageCode?: string;
 }
 
 @InputType()
 class CreateQuestionsInput {
   @Field(() => String, { nullable: true })
-  question: string | undefined;
+  question?: string;
 
   @Field(() => String, { nullable: true })
-  answer: string | undefined;
+  answer?: string;
 
   @Field(() => [CreateQuestionsTranslationInput], { nullable: true })
-  translations: CreateQuestionsTranslationInput[] | undefined;
+  translations?: CreateQuestionsTranslationInput[];
 }
 
 @InputType()
 class CreateQuestionsTranslationInput {
   @Field(() => String, { nullable: true })
-  question: string | undefined;
+  question?: string;
 
   @Field(() => String, { nullable: true })
-  answer: string | undefined;
+  answer?: string;
 
   @Field(() => String, { nullable: true })
-  languageCode: string | undefined;
+  languageCode?: string;
 }
 
 @InputType()
 class UpdateProfileInput {
   @Field(() => String, { nullable: true })
-  id: string | undefined;
+  id?: string;
 
   @Field(() => String, { nullable: true })
-  age: string | undefined;
+  age?: string;
 
   @Field(() => String, { nullable: true })
-  resume: string | undefined;
+  resume?: string;
 
   @Field(() => String, { nullable: true })
-  Image: string | undefined;
+  Image?: string;
 
   @Field(() => String, { nullable: true })
-  mail: string | undefined;
+  mail?: string;
 
   @Field(() => [UpdateProfileTranslationsInput], { nullable: true })
-  translations: UpdateProfileTranslationsInput[] | undefined;
+  translations?: UpdateProfileTranslationsInput[];
 
   @Field(() => [UpdateProfileWorksInput], { nullable: true })
-  works: UpdateProfileWorksInput[] | undefined;
+  works?: UpdateProfileWorksInput[];
 
   @Field(() => [UpdateHobbysInput], { nullable: true })
-  hobbys: UpdateHobbysInput[] | undefined;
+  hobbys?: UpdateHobbysInput[];
 
   @Field(() => [UpdateQuestionsInput], { nullable: true })
-  questions: UpdateQuestionsInput[] | undefined;
+  questions?: UpdateQuestionsInput[];
 
   @Field(() => [UpdateSocialsInput], { nullable: true })
-  socials: UpdateSocialsInput[] | undefined;
+  socials?: UpdateSocialsInput[];
 
   @Field(() => [String], { nullable: true })
-  deletedTranslations: string[] | undefined;
+  deletedTranslations?: string[];
 
   @Field(() => [String], { nullable: true })
-  deletedWorks: string[] | undefined;
+  deletedWorks?: string[];
 
   @Field(() => [String], { nullable: true })
-  deletedHobbys: string[] | undefined;
+  deletedHobbys?: string[];
 
   @Field(() => [String], { nullable: true })
-  deletedQuestions: string[] | undefined;
+  deletedQuestions?: string[];
 }
 
 @InputType()
 class UpdateProfileTranslationsInput {
   @Field(() => String, { nullable: true })
-  id: string | undefined;
+  id?: string;
 
   @Field(() => String, { nullable: true })
-  name: string | undefined;
+  name?: string;
 
   @Field(() => String, { nullable: true })
-  surname: string | undefined;
+  surname?: string;
 
   @Field(() => String, { nullable: true })
-  languageCode: string | undefined;
+  languageCode?: string;
 
   @Field(() => String, { nullable: true })
-  profession: string | undefined;
+  profession?: string;
 
   @Field(() => String, { nullable: true })
-  location: string | undefined;
+  location?: string;
 
   @Field(() => String, { nullable: true })
-  experience: string | undefined;
+  experience?: string;
 
   @Field(() => String, { nullable: true })
-  university: string | undefined;
+  university?: string;
 
   @Field(() => String, { nullable: true })
-  universityAbout: string | undefined;
+  universityAbout?: string;
 
   @Field(() => String, { nullable: true })
-  aboutMe: string | undefined;
+  aboutMe?: string;
 
   @Field(() => [UpdateProfileWorksInput], { nullable: true })
-  works: UpdateProfileWorksInput[] | undefined;
+  works?: UpdateProfileWorksInput[];
 
   @Field(() => [UpdateHobbysInput], { nullable: true })
-  hobbys: UpdateHobbysInput[] | undefined;
+  hobbys?: UpdateHobbysInput[];
 
   @Field(() => [UpdateQuestionsInput], { nullable: true })
-  questions: UpdateQuestionsInput[] | undefined;
+  questions?: UpdateQuestionsInput[];
 
   @Field(() => [UpdateSocialsInput], { nullable: true })
-  socials: UpdateSocialsInput[] | undefined;
+  socials?: UpdateSocialsInput[];
 }
 
 @InputType()
 class UpdateProfileWorksInput {
   @Field(() => String, { nullable: true })
-  id: string | undefined;
+  id?: string;
 
   @Field(() => String, { nullable: true })
-  workLogo: string | undefined;
+  workLogo?: string;
 
   @Field(() => String, { nullable: true })
-  fromDate: string | undefined;
+  fromDate?: string;
 
   @Field(() => String, { nullable: true })
-  toDate: string | undefined;
+  toDate?: string;
 
   @Field(() => [UpdateProfileWorksTranslationInput], { nullable: true })
-  translations: UpdateProfileWorksTranslationInput[] | undefined;
+  translations?: UpdateProfileWorksTranslationInput[];
 }
 
 @InputType()
 class UpdateProfileWorksTranslationInput {
   @Field(() => String, { nullable: true })
-  id: string | undefined;
+  id?: string;
 
   @Field(() => String, { nullable: true })
-  work: string | undefined;
+  work?: string;
 
   @Field(() => String, { nullable: true })
-  workAbout: string | undefined;
+  workAbout?: string;
 
   @Field(() => String, { nullable: true })
-  position: string | undefined;
+  position?: string;
 
   @Field(() => String, { nullable: true })
-  languageCode: string | undefined;
+  languageCode?: string;
 }
 
 @InputType()
 class UpdateHobbysInput {
   @Field(() => String, { nullable: true })
-  id: string | undefined;
+  id?: string;
 
   @Field(() => String, { nullable: true })
-  image: string | undefined;
+  image?: string;
 
   @Field(() => [UpdateHobbysTranslationInput], { nullable: true })
-  translations: UpdateHobbysTranslationInput[] | undefined;
+  translations?: UpdateHobbysTranslationInput[];
 }
 
 @InputType()
 class UpdateHobbysTranslationInput {
   @Field(() => String, { nullable: true })
-  id: string | undefined;
+  id?: string;
 
   @Field(() => String, { nullable: true })
-  hobby: string | undefined;
+  hobby?: string;
 
   @Field(() => String, { nullable: true })
-  aboutHobby: string | undefined;
+  aboutHobby?: string;
 
   @Field(() => String, { nullable: true })
-  languageCode: string | undefined;
+  languageCode?: string;
 }
 
 @InputType()
 class UpdateQuestionsInput {
   @Field(() => String, { nullable: true })
-  id: string | undefined;
+  id?: string;
 
   @Field(() => String, { nullable: true })
-  question: string | undefined;
+  question?: string;
 
   @Field(() => String, { nullable: true })
-  answer: string | undefined;
+  answer?: string;
 
   @Field(() => [UpdateQuestionsTranslationInput], { nullable: true })
-  translations: UpdateQuestionsTranslationInput[] | undefined;
+  translations?: UpdateQuestionsTranslationInput[];
 }
 
 @InputType()
 class UpdateQuestionsTranslationInput {
   @Field(() => String, { nullable: true })
-  id: string | undefined;
+  id?: string;
 
   @Field(() => String, { nullable: true })
-  question: string | undefined;
+  question?: string;
 
   @Field(() => String, { nullable: true })
-  answer: string | undefined;
+  answer?: string;
 
   @Field(() => String, { nullable: true })
-  languageCode: string | undefined;
+  languageCode?: string;
 }
 
 @ObjectType()

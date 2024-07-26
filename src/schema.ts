@@ -1,19 +1,15 @@
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import * as CustomResolvers from "./resolvers";
-import { resolvers } from "@generated/type-graphql";
+import { resolvers as generatedResolvers } from "@generated/type-graphql";
 
 export const buildGqlSchema = async () => {
-  // Convert CustomResolvers to an array of functions
   const customResolversArray = Object.values(CustomResolvers).filter(
     (resolver) => typeof resolver === "function"
   );
 
   const schema = await buildSchema({
-    resolvers: [...resolvers, ...customResolversArray] as [
-      Function,
-      ...Function[]
-    ],
+    resolvers: [...generatedResolvers, ...customResolversArray],
     validate: false,
   });
 

@@ -182,7 +182,7 @@ export class ArchiveResolver {
 
   @Query(() => ArchiveResponse, { nullable: true })
   async getArchive(
-    @Arg("id") id: string,
+    @Arg("id", () => String) id: string,
     @Ctx() { prisma }: Context
   ): Promise<ArchiveResponse | null> {
     const archive = await prisma.archive.findUnique({ where: { id } });
