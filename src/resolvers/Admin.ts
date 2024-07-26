@@ -9,7 +9,11 @@ import {
 } from "type-graphql";
 import { Context } from "..";
 import { Prisma } from "@prisma/client";
+import jwt from "jsonwebtoken";
+// import { comparePassword, hashToken } from "../utils";
 import { hashToken } from "../utils";
+
+import { GraphQLError } from "graphql";
 
 @InputType()
 class CreateAdminInput {
@@ -35,7 +39,16 @@ class UpdateAdminInput {
 @ObjectType()
 class AdminResponse {
   @Field(() => String, { nullable: true })
-  id: string | undefined;
+  id?: string;
+}
+
+@ObjectType()
+class TokenResponse {
+  @Field(() => String)
+  token: string | undefined;
+
+  @Field(() => AdminResponse, { nullable: true })
+  admin?: AdminResponse;
 }
 
 @Resolver()
@@ -73,5 +86,33 @@ export class AdminResolver {
     });
 
     return { id: admin.id };
+  }
+
+  @Mutation(() => TokenResponse)
+  async loginAdmin(
+    @Arg("email", () => String) email: string,
+    @Arg("password", () => String) password: string,
+    @Ctx() { prisma }: Context
+  ) {
+    const admin = await prisma.admin.findUnique({
+      where: { email: email.trim() },
+    });
+
+    if (!admin) {
+      throw new GraphQLError("Admin not found!");
+    }
+
+    console.log(password);
+    console.log(admin.password);
+
+    const valid = hashToken(password) === admin.password;
+
+    if (!valid) {
+      throw new GraphQLError("Incorrect email or password!");
+    }
+
+    const token = jwt.sign({ id: admin.id }, process.env.JWT_SECRET!);
+
+    return { token, admin: { id: admin.id } };
   }
 }
