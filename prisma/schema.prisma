@@ -290,6 +290,7 @@ model MainProjects {
   images            String[]
   skills            String[]
   github            String
+  isReal            Boolean
 
   translations MainProjectsTranslations[]
 

@@ -35,6 +35,9 @@ class CreateMainProjectInput {
   @Field(() => String, { nullable: true })
   github?: string;
 
+  @Field(() => Boolean, { nullable: true })
+  isReal?: boolean;
+
   @Field(() => [CreateMainProjectTranslationInput], { nullable: true })
   translations?: CreateMainProjectTranslationInput[];
 }
@@ -82,6 +85,9 @@ class UpdateMainProjectInput {
 
   @Field(() => String, { nullable: true })
   github?: string;
+
+  @Field(() => Boolean, { nullable: true })
+  isReal?: boolean;
 
   @Field(() => [UpdateMainProjectTranslationInput], { nullable: true })
   translations?: UpdateMainProjectTranslationInput[];
@@ -133,6 +139,7 @@ export class MainProjectResolver {
         images: data.images || [],
         skills: data.skills || [],
         github: data.github || "",
+        isReal: data.isReal || false,
         translations: {
           createMany: {
             data:
@@ -166,6 +173,7 @@ export class MainProjectResolver {
         images: data.images || undefined,
         skills: data.skills || undefined,
         github: data.github || undefined,
+        isReal: data.isReal || false,
         translations: {
           upsert:
             data.translations?.map((t) => ({
