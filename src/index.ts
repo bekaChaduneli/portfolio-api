@@ -38,7 +38,6 @@ async function main() {
     cors: {
       origin: "*",
     },
-    // graphiql: false,
   });
 
   app.use(yoga.graphqlEndpoint, yoga);

@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { ArchiveFindManyWithFiltersArgs } from "./types"; // Adjust path as needed
+import { ArchiveFindManyWithFiltersArgs } from "./types";
 import { prisma } from "..";
 
 export const archiveExtensions = Prisma.defineExtension({

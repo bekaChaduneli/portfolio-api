@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { ProjectsFindManyWithFiltersArgs } from "./types"; // Adjust path as needed
+import { ProjectsFindManyWithFiltersArgs } from "./types";
 import { prisma } from "..";
 
 export const mainProjectsExtensions = Prisma.defineExtension({
