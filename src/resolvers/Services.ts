@@ -157,7 +157,7 @@ export class ServicesResolver {
 
   @Query(() => ServicesResponse, { nullable: true })
   async getService(
-    @Arg("id") id: string,
+    @Arg("id", () => String) id: string,
     @Ctx() { prisma }: Context
   ): Promise<ServicesResponse | null> {
     const service = await prisma.services.findUnique({ where: { id } });

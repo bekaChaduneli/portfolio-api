@@ -6,13 +6,12 @@ import {
   ObjectType,
   Field,
   InputType,
-  Query,
 } from "type-graphql";
 import { Context } from "..";
 import { Prisma } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
 
-// Input Types
+// Define input types
 @InputType()
 class CreateAboutMeInput {
   @Field(() => String, { nullable: true })
@@ -27,186 +26,26 @@ class CreateAboutMeInput {
   @Field(() => String, { nullable: true })
   projectNum?: string;
 
-  @Field(() => [CreateAboutMeTranslationInput], { nullable: true })
-  translations?: CreateAboutMeTranslationInput[];
+  @Field(() => [WorkInput], { nullable: true })
+  works?: WorkInput[];
 
-  @Field(() => [CreateWorkInput], { nullable: true })
-  works?: CreateWorkInput[];
+  @Field(() => [EducationInput], { nullable: true })
+  education?: EducationInput[];
 
-  @Field(() => [CreateEducationInput], { nullable: true })
-  education?: CreateEducationInput[];
+  @Field(() => [LanguageInput], { nullable: true })
+  languages?: LanguageInput[];
 
-  @Field(() => [CreateLanguageInput], { nullable: true })
-  languages?: CreateLanguageInput[];
+  @Field(() => [CertificateInput], { nullable: true })
+  certificates?: CertificateInput[];
 
-  @Field(() => [CreateCertificateInput], { nullable: true })
-  certificates?: CreateCertificateInput[];
+  @Field(() => [AboutMeTranslationInput], { nullable: true })
+  translations?: AboutMeTranslationInput[];
 }
 
-@InputType()
-class CreateAboutMeTranslationInput {
-  @Field(() => String, { nullable: true })
-  name?: string;
-
-  @Field(() => String, { nullable: true })
-  about?: string;
-
-  @Field(() => String, { nullable: true })
-  role?: string;
-
-  @Field(() => String, { nullable: true })
-  country?: string;
-
-  @Field(() => String, { nullable: true })
-  city?: string;
-
-  @Field(() => String, { nullable: true })
-  languageCode?: string;
-}
-
-@InputType()
-class CreateWorkInput {
-  @Field(() => String, { nullable: true })
-  link?: string;
-
-  @Field(() => Date, { nullable: true })
-  fromDate?: Date;
-
-  @Field(() => Date, { nullable: true })
-  toDate?: Date;
-
-  @Field(() => [CreateWorkTranslationInput], { nullable: true })
-  translations?: CreateWorkTranslationInput[];
-}
-
-@InputType()
-class CreateWorkTranslationInput {
-  @Field(() => String, { nullable: true })
-  company?: string;
-
-  @Field(() => String, { nullable: true })
-  role?: string;
-
-  @Field(() => String, { nullable: true })
-  description?: string;
-
-  @Field(() => String, { nullable: true })
-  location?: string;
-
-  @Field(() => String, { nullable: true })
-  locationType?: string;
-
-  @Field(() => String, { nullable: true })
-  employmentType?: string;
-
-  @Field(() => String, { nullable: true })
-  languageCode?: string;
-}
-
-@InputType()
-class CreateEducationInput {
-  @Field(() => String, { nullable: true })
-  link?: string;
-
-  @Field(() => Date, { nullable: true })
-  fromDate?: Date;
-
-  @Field(() => Date, { nullable: true })
-  toDate?: Date;
-
-  @Field(() => [CreateEducationTranslationInput], { nullable: true })
-  translations?: CreateEducationTranslationInput[];
-}
-
-@InputType()
-class CreateEducationTranslationInput {
-  @Field(() => String, { nullable: true })
-  name?: string;
-
-  @Field(() => String, { nullable: true })
-  degree?: string;
-
-  @Field(() => String, { nullable: true })
-  fieldOfStudy?: string;
-
-  @Field(() => String, { nullable: true })
-  gpa?: string;
-
-  @Field(() => String, { nullable: true })
-  description?: string;
-
-  @Field(() => String, { nullable: true })
-  languageCode?: string;
-}
-
-@InputType()
-class CreateLanguageInput {
-  @Field(() => String, { nullable: true })
-  name?: string;
-
-  @Field(() => String, { nullable: true })
-  description?: string;
-
-  @Field(() => String, { nullable: true })
-  level?: string;
-
-  @Field(() => [CreateLanguageTranslationInput], { nullable: true })
-  translations?: CreateLanguageTranslationInput[];
-}
-
-@InputType()
-class CreateLanguageTranslationInput {
-  @Field(() => String, { nullable: true })
-  name?: string;
-
-  @Field(() => String, { nullable: true })
-  description?: string;
-
-  @Field(() => String, { nullable: true })
-  level?: string;
-
-  @Field(() => String, { nullable: true })
-  languageCode?: string;
-}
-
-@InputType()
-class CreateCertificateInput {
-  @Field(() => String, { nullable: true })
-  link?: string;
-
-  @Field(() => String, { nullable: true })
-  image?: string;
-
-  @Field(() => Date, { nullable: true })
-  issueDate?: Date;
-
-  @Field(() => String, { nullable: true })
-  expirationDate?: string;
-
-  @Field(() => [CreateCertificateTranslationInput], { nullable: true })
-  translations?: CreateCertificateTranslationInput[];
-}
-
-@InputType()
-class CreateCertificateTranslationInput {
-  @Field(() => String, { nullable: true })
-  name?: string;
-
-  @Field(() => String, { nullable: true })
-  organization?: string;
-
-  @Field(() => String, { nullable: true })
-  description?: string;
-
-  @Field(() => String, { nullable: true })
-  languageCode?: string;
-}
-
-// Update Input Types
 @InputType()
 class UpdateAboutMeInput {
-  @Field(() => String, { nullable: true })
-  id?: string;
+  @Field(() => String)
+  id: string | undefined;
 
   @Field(() => String, { nullable: true })
   image?: string;
@@ -220,51 +59,24 @@ class UpdateAboutMeInput {
   @Field(() => String, { nullable: true })
   projectNum?: string;
 
-  @Field(() => [UpdateAboutMeTranslationInput], { nullable: true })
-  translations?: UpdateAboutMeTranslationInput[];
+  @Field(() => [WorkInput], { nullable: true })
+  works?: WorkInput[];
 
-  @Field(() => [UpdateWorkInput], { nullable: true })
-  works?: UpdateWorkInput[];
+  @Field(() => [EducationInput], { nullable: true })
+  education?: EducationInput[];
 
-  @Field(() => [UpdateEducationInput], { nullable: true })
-  education?: UpdateEducationInput[];
+  @Field(() => [LanguageInput], { nullable: true })
+  languages?: LanguageInput[];
 
-  @Field(() => [UpdateLanguageInput], { nullable: true })
-  languages?: UpdateLanguageInput[];
+  @Field(() => [CertificateInput], { nullable: true })
+  certificates?: CertificateInput[];
 
-  @Field(() => [UpdateCertificateInput], { nullable: true })
-  certificates?: UpdateCertificateInput[];
-
-  @Field(() => [String], { nullable: true })
-  deletedTranslations?: string[];
+  @Field(() => [AboutMeTranslationInput], { nullable: true })
+  translations?: AboutMeTranslationInput[];
 }
 
 @InputType()
-class UpdateAboutMeTranslationInput {
-  @Field(() => String, { nullable: true })
-  id?: string;
-
-  @Field(() => String, { nullable: true })
-  name?: string;
-
-  @Field(() => String, { nullable: true })
-  about?: string;
-
-  @Field(() => String, { nullable: true })
-  role?: string;
-
-  @Field(() => String, { nullable: true })
-  country?: string;
-
-  @Field(() => String, { nullable: true })
-  city?: string;
-
-  @Field(() => String, { nullable: true })
-  languageCode?: string;
-}
-
-@InputType()
-class UpdateWorkInput {
+class WorkInput {
   @Field(() => String, { nullable: true })
   id?: string;
 
@@ -277,15 +89,12 @@ class UpdateWorkInput {
   @Field(() => Date, { nullable: true })
   toDate?: Date;
 
-  @Field(() => [UpdateWorkTranslationInput], { nullable: true })
-  translations?: UpdateWorkTranslationInput[];
-
-  @Field(() => [String], { nullable: true })
-  deletedTranslations?: string[];
+  @Field(() => [WorkTranslationInput], { nullable: true })
+  translations?: WorkTranslationInput[];
 }
 
 @InputType()
-class UpdateWorkTranslationInput {
+class WorkTranslationInput {
   @Field(() => String, { nullable: true })
   id?: string;
 
@@ -312,7 +121,7 @@ class UpdateWorkTranslationInput {
 }
 
 @InputType()
-class UpdateEducationInput {
+class EducationInput {
   @Field(() => String, { nullable: true })
   id?: string;
 
@@ -325,15 +134,12 @@ class UpdateEducationInput {
   @Field(() => Date, { nullable: true })
   toDate?: Date;
 
-  @Field(() => [UpdateEducationTranslationInput], { nullable: true })
-  translations?: UpdateEducationTranslationInput[];
-
-  @Field(() => [String], { nullable: true })
-  deletedTranslations?: string[];
+  @Field(() => [EducationTranslationInput], { nullable: true })
+  translations?: EducationTranslationInput[];
 }
 
 @InputType()
-class UpdateEducationTranslationInput {
+class EducationTranslationInput {
   @Field(() => String, { nullable: true })
   id?: string;
 
@@ -357,28 +163,22 @@ class UpdateEducationTranslationInput {
 }
 
 @InputType()
-class UpdateLanguageInput {
+class LanguageInput {
   @Field(() => String, { nullable: true })
   id?: string;
 
-  @Field(() => String, { nullable: true })
-  name?: string;
+  @Field(() => [LanguageTranslationInput], { nullable: true })
+  translations?: LanguageTranslationInput[];
 
-  @Field(() => String, { nullable: true })
-  description?: string;
+  @Field(() => Date, { nullable: true })
+  createdAt?: Date;
 
-  @Field(() => String, { nullable: true })
-  level?: string;
-
-  @Field(() => [UpdateLanguageTranslationInput], { nullable: true })
-  translations?: UpdateLanguageTranslationInput[];
-
-  @Field(() => [String], { nullable: true })
-  deletedTranslations?: string[];
+  @Field(() => Date, { nullable: true })
+  updatedAt?: Date;
 }
 
 @InputType()
-class UpdateLanguageTranslationInput {
+class LanguageTranslationInput {
   @Field(() => String, { nullable: true })
   id?: string;
 
@@ -396,7 +196,7 @@ class UpdateLanguageTranslationInput {
 }
 
 @InputType()
-export class UpdateCertificateInput {
+class CertificateInput {
   @Field(() => String, { nullable: true })
   id?: string;
 
@@ -412,15 +212,12 @@ export class UpdateCertificateInput {
   @Field(() => String, { nullable: true })
   expirationDate?: string;
 
-  @Field(() => [UpdateCertificateTranslationInput], { nullable: true })
-  translations?: UpdateCertificateTranslationInput[];
-
-  @Field(() => [String], { nullable: true })
-  deletedTranslations?: string[];
+  @Field(() => [CertificateTranslationInput], { nullable: true })
+  translations?: CertificateTranslationInput[];
 }
 
 @InputType()
-export class UpdateCertificateTranslationInput {
+class CertificateTranslationInput {
   @Field(() => String, { nullable: true })
   id?: string;
 
@@ -428,7 +225,7 @@ export class UpdateCertificateTranslationInput {
   name?: string;
 
   @Field(() => String, { nullable: true })
-  organization?: string;
+  organiation?: string;
 
   @Field(() => String, { nullable: true })
   description?: string;
@@ -437,44 +234,10 @@ export class UpdateCertificateTranslationInput {
   languageCode?: string;
 }
 
-// Object Types
-@ObjectType()
-class AboutMe {
-  @Field(() => String)
-  id: string | undefined;
-
+@InputType()
+class AboutMeTranslationInput {
   @Field(() => String, { nullable: true })
-  image?: string;
-
-  @Field(() => String, { nullable: true })
-  experience?: string;
-
-  @Field(() => String, { nullable: true })
-  age?: string;
-
-  @Field(() => String, { nullable: true })
-  projectNum?: string;
-
-  @Field(() => [AboutMeTranslation], { nullable: true })
-  translations?: AboutMeTranslation[];
-
-  @Field(() => [Work], { nullable: true })
-  works?: Work[];
-
-  @Field(() => [Education], { nullable: true })
-  education?: Education[];
-
-  @Field(() => [Language], { nullable: true })
-  languages?: Language[];
-
-  @Field(() => [Certificate], { nullable: true })
-  certificates?: Certificate[];
-}
-
-@ObjectType()
-class AboutMeTranslation {
-  @Field(() => String)
-  id: string | undefined;
+  id?: string;
 
   @Field(() => String, { nullable: true })
   name?: string;
@@ -495,364 +258,179 @@ class AboutMeTranslation {
   languageCode?: string;
 }
 
+// Define response types
 @ObjectType()
-class Work {
+class AboutMeResponse {
   @Field(() => String)
   id: string | undefined;
-
-  @Field(() => String, { nullable: true })
-  link?: string;
-
-  @Field(() => Date, { nullable: true })
-  fromDate?: Date;
-
-  @Field(() => Date, { nullable: true })
-  toDate?: Date;
-
-  @Field(() => [WorkTranslation], { nullable: true })
-  translations?: WorkTranslation[];
 }
 
-@ObjectType()
-class WorkTranslation {
-  @Field(() => String)
-  id: string | undefined;
-
-  @Field(() => String, { nullable: true })
-  company?: string;
-
-  @Field(() => String, { nullable: true })
-  role?: string;
-
-  @Field(() => String, { nullable: true })
-  description?: string;
-
-  @Field(() => String, { nullable: true })
-  location?: string;
-
-  @Field(() => String, { nullable: true })
-  locationType?: string;
-
-  @Field(() => String, { nullable: true })
-  employmentType?: string;
-
-  @Field(() => String, { nullable: true })
-  languageCode?: string;
-}
-
-@ObjectType()
-class Education {
-  @Field(() => String)
-  id: string | undefined;
-
-  @Field(() => String, { nullable: true })
-  link?: string;
-
-  @Field(() => Date, { nullable: true })
-  fromDate?: Date;
-
-  @Field(() => Date, { nullable: true })
-  toDate?: Date;
-
-  @Field(() => [EducationTranslation], { nullable: true })
-  translations?: EducationTranslation[];
-}
-
-@ObjectType()
-class EducationTranslation {
-  @Field(() => String)
-  id: string | undefined;
-
-  @Field(() => String, { nullable: true })
-  name?: string;
-
-  @Field(() => String, { nullable: true })
-  degree?: string;
-
-  @Field(() => String, { nullable: true })
-  fieldOfStudy?: string;
-
-  @Field(() => String, { nullable: true })
-  gpa?: string;
-
-  @Field(() => String, { nullable: true })
-  description?: string;
-
-  @Field(() => String, { nullable: true })
-  languageCode?: string;
-}
-
-@ObjectType()
-class Language {
-  @Field(() => String)
-  id: string | undefined;
-
-  @Field(() => String, { nullable: true })
-  name?: string;
-
-  @Field(() => String, { nullable: true })
-  description?: string;
-
-  @Field(() => String, { nullable: true })
-  level?: string;
-
-  @Field(() => [LanguageTranslation], { nullable: true })
-  translations?: LanguageTranslation[];
-}
-
-@ObjectType()
-class LanguageTranslation {
-  @Field(() => String)
-  id: string | undefined;
-
-  @Field(() => String, { nullable: true })
-  name?: string;
-
-  @Field(() => String, { nullable: true })
-  description?: string;
-
-  @Field(() => String, { nullable: true })
-  level?: string;
-
-  @Field(() => String, { nullable: true })
-  languageCode?: string;
-}
-
-@ObjectType()
-export class Certificate {
-  @Field(() => String)
-  id: string | undefined;
-
-  @Field(() => String, { nullable: true })
-  link?: string;
-
-  @Field(() => String, { nullable: true })
-  image?: string;
-
-  @Field(() => Date, { nullable: true })
-  issueDate?: Date;
-
-  @Field(() => String, { nullable: true })
-  expirationDate?: string;
-
-  @Field(() => [CertificateTranslation], { nullable: true })
-  translations?: CertificateTranslation[];
-}
-
-@ObjectType()
-export class CertificateTranslation {
-  @Field(() => String)
-  id: string | undefined;
-
-  @Field(() => String, { nullable: true })
-  name?: string;
-
-  @Field(() => String, { nullable: true })
-  organization?: string;
-
-  @Field(() => String, { nullable: true })
-  description?: string;
-
-  @Field(() => String, { nullable: true })
-  languageCode?: string;
-}
-
-@Resolver(() => AboutMe)
+@Resolver()
 export class AboutMeResolver {
-  @Mutation(() => AboutMe)
+  @Mutation(() => AboutMeResponse)
   async createAboutMe(
-    @Arg("data") data: CreateAboutMeInput,
-    @Ctx() ctx: Context
-  ): Promise<AboutMe> {
-    return ctx.prisma.aboutMe.create({
+    @Arg("data", () => CreateAboutMeInput) data: CreateAboutMeInput,
+    @Ctx() { prisma }: Context
+  ): Promise<AboutMeResponse> {
+    const aboutMe = await prisma.aboutMe.create({
       data: {
         image: data.image || "",
         experience: data.experience || "",
         age: data.age || "",
         projectNum: data.projectNum || "",
-        translations: {
-          create:
-            data.translations?.map((translation) => ({
-              id: uuidv4(),
-              name: translation.name || "",
-              about: translation.about || "",
-              role: translation.role || "",
-              country: translation.country || "",
-              city: translation.city || "",
-              languageCode: translation.languageCode || "",
-            })) || [],
-        },
         works: {
           create:
-            data.works?.map((work) => ({
-              id: uuidv4(),
-              link: work.link || "",
-              fromDate: work.fromDate || new Date(),
-              toDate: work.toDate || new Date(),
+            data.works?.map((w) => ({
+              link: w.link || "",
+              fromDate: w.fromDate || new Date(),
+              toDate: w.toDate || new Date(),
               translations: {
                 create:
-                  work.translations?.map((translation) => ({
-                    id: uuidv4(),
-                    company: translation.company || "",
-                    role: translation.role || "",
-                    description: translation.description || "",
-                    location: translation.location || "",
-                    locationType: translation.locationType || "",
-                    employmentType: translation.employmentType || "",
-                    languageCode: translation.languageCode || "",
+                  w.translations?.map((wt) => ({
+                    company: wt.company || "",
+                    role: wt.role || "",
+                    description: wt.description || "",
+                    location: wt.location || "",
+                    locationType: wt.locationType || "",
+                    employmentType: wt.employmentType || "",
+                    languageCode: wt.languageCode || "",
                   })) || [],
               },
             })) || [],
         },
         education: {
           create:
-            data.education?.map((education) => ({
-              id: uuidv4(),
-              link: education.link || "",
-              fromDate: education.fromDate || new Date(),
-              toDate: education.toDate || new Date(),
+            data.education?.map((e) => ({
+              link: e.link || "",
+              fromDate: e.fromDate || new Date(),
+              toDate: e.toDate || new Date(),
               translations: {
                 create:
-                  education.translations?.map((translation) => ({
-                    id: uuidv4(),
-                    name: translation.name || "",
-                    degree: translation.degree || "",
-                    fieldOfStudy: translation.fieldOfStudy || "",
-                    gpa: translation.gpa || "",
-                    description: translation.description || "",
-                    languageCode: translation.languageCode || "",
+                  e.translations?.map((et) => ({
+                    name: et.name || "",
+                    degree: et.degree || "",
+                    fieldOfStudy: et.fieldOfStudy || "",
+                    gpa: et.gpa || undefined,
+                    description: et.description || "",
+                    languageCode: et.languageCode || "",
                   })) || [],
               },
             })) || [],
         },
         languages: {
           create:
-            data.languages?.map((language) => ({
-              id: uuidv4(),
-              name: language.name || "",
-              description: language.description || "",
-              level: language.level || "",
+            data.languages?.map((l) => ({
               translations: {
                 create:
-                  language.translations?.map((translation) => ({
-                    id: uuidv4(),
-                    name: translation.name || "",
-                    description: translation.description || "",
-                    level: translation.level || "",
-                    languageCode: translation.languageCode || "",
+                  l.translations?.map((lt) => ({
+                    name: lt.name || "",
+                    description: lt.description || "",
+                    level: lt.level || "",
+                    languageCode: lt.languageCode || "",
                   })) || [],
               },
+              createdAt: l.createdAt || new Date(),
+              updatedAt: l.updatedAt || new Date(),
             })) || [],
         },
         certificates: {
           create:
-            data.certificates?.map((certificate) => ({
-              id: uuidv4(),
-              link: certificate.link || "",
-              image: certificate.image || "",
-              issueDate: certificate.issueDate || new Date(),
-              expirationDate: certificate.expirationDate || new Date(),
+            data.certificates?.map((c) => ({
+              link: c.link || "",
+              image: c.image || "",
+              issueDate: c.issueDate || new Date(),
+              expirationDate: c.expirationDate || "",
               translations: {
                 create:
-                  certificate.translations?.map((translation) => ({
-                    id: uuidv4(),
-                    name: translation.name || "",
-                    organization: translation.organization || "",
-                    description: translation.description || "",
-                    languageCode: translation.languageCode || "",
+                  c.translations?.map((ct) => ({
+                    name: ct.name || "",
+                    organiation: ct.organiation || "",
+                    description: ct.description || "",
+                    languageCode: ct.languageCode || "",
                   })) || [],
               },
             })) || [],
         },
+        translations: {
+          create:
+            data.translations?.map((t) => ({
+              name: t.name || "",
+              about: t.about || "",
+              role: t.role || "",
+              country: t.country || "",
+              city: t.city || "",
+              languageCode: t.languageCode || "",
+            })) || [],
+        },
       },
     });
+
+    return { id: aboutMe.id };
   }
 
-  @Mutation(() => AboutMe)
+  @Mutation(() => AboutMeResponse)
   async updateAboutMe(
-    @Arg("data") data: UpdateAboutMeInput,
-    @Ctx() ctx: Context
-  ): Promise<AboutMe> {
-    return ctx.prisma.aboutMe.update({
-      where: { id: data.id },
+    @Arg("data", () => UpdateAboutMeInput) data: UpdateAboutMeInput,
+    @Ctx() { prisma }: Context
+  ): Promise<AboutMeResponse> {
+    const aboutMe = await prisma.aboutMe.update({
+      where: { id: data.id || "" },
       data: {
         image: data.image || undefined,
         experience: data.experience || undefined,
         age: data.age || undefined,
         projectNum: data.projectNum || undefined,
-        translations: {
-          upsert:
-            data.translations?.map((translation) => ({
-              where: { id: translation.id! },
-              update: {
-                name: translation.name || undefined,
-                about: translation.about || undefined,
-                role: translation.role || undefined,
-                country: translation.country || undefined,
-                city: translation.city || undefined,
-                languageCode: translation.languageCode || undefined,
-              },
-              create: {
-                id: uuidv4(),
-                name: translation.name || "",
-                about: translation.about || "",
-                role: translation.role || "",
-                country: translation.country || "",
-                city: translation.city || "",
-                languageCode: translation.languageCode || "",
-              },
-            })) || [],
-        },
         works: {
           upsert:
-            data.works?.map((work) => ({
-              where: { id: work.id! },
+            data.works?.map((w) => ({
+              where: {
+                id: w.id || uuidv4(),
+              },
               update: {
-                link: work.link || undefined,
-                fromDate: work.fromDate || undefined,
-                toDate: work.toDate || undefined,
+                link: w.link || undefined,
+                fromDate: w.fromDate || undefined,
+                toDate: w.toDate || undefined,
                 translations: {
                   upsert:
-                    work.translations?.map((translation) => ({
-                      where: { id: translation.id! },
+                    w.translations?.map((wt) => ({
+                      where: {
+                        id: wt.id || uuidv4(),
+                      },
                       update: {
-                        company: translation.company || undefined,
-                        role: translation.role || undefined,
-                        description: translation.description || undefined,
-                        location: translation.location || undefined,
-                        locationType: translation.locationType || undefined,
-                        employmentType: translation.employmentType || undefined,
-                        languageCode: translation.languageCode || undefined,
+                        company: wt.company || undefined,
+                        role: wt.role || undefined,
+                        description: wt.description || undefined,
+                        location: wt.location || undefined,
+                        locationType: wt.locationType || undefined,
+                        employmentType: wt.employmentType || undefined,
+                        languageCode: wt.languageCode || undefined,
                       },
                       create: {
-                        id: uuidv4(),
-                        company: translation.company || "",
-                        role: translation.role || "",
-                        description: translation.description || "",
-                        location: translation.location || "",
-                        locationType: translation.locationType || "",
-                        employmentType: translation.employmentType || "",
-                        languageCode: translation.languageCode || "",
+                        company: wt.company || "",
+                        role: wt.role || "",
+                        description: wt.description || "",
+                        location: wt.location || "",
+                        locationType: wt.locationType || "",
+                        employmentType: wt.employmentType || "",
+                        languageCode: wt.languageCode || "",
                       },
                     })) || [],
                 },
               },
               create: {
-                id: uuidv4(),
-                link: work.link || "",
-                fromDate: work.fromDate || new Date(),
-                toDate: work.toDate || new Date(),
+                link: w.link || "",
+                fromDate: w.fromDate || new Date(),
+                toDate: w.toDate || new Date(),
                 translations: {
                   create:
-                    work.translations?.map((translation) => ({
-                      id: uuidv4(),
-                      company: translation.company || "",
-                      role: translation.role || "",
-                      description: translation.description || "",
-                      location: translation.location || "",
-                      locationType: translation.locationType || "",
-                      employmentType: translation.employmentType || "",
-                      languageCode: translation.languageCode || "",
+                    w.translations?.map((wt) => ({
+                      company: wt.company || "",
+                      role: wt.role || "",
+                      description: wt.description || "",
+                      location: wt.location || "",
+                      locationType: wt.locationType || "",
+                      employmentType: wt.employmentType || "",
+                      languageCode: wt.languageCode || "",
                     })) || [],
                 },
               },
@@ -860,51 +438,52 @@ export class AboutMeResolver {
         },
         education: {
           upsert:
-            data.education?.map((education) => ({
-              where: { id: education.id! },
+            data.education?.map((e) => ({
+              where: {
+                id: e.id || uuidv4(),
+              },
               update: {
-                link: education.link || undefined,
-                fromDate: education.fromDate || undefined,
-                toDate: education.toDate || undefined,
+                link: e.link || undefined,
+                fromDate: e.fromDate || undefined,
+                toDate: e.toDate || undefined,
                 translations: {
                   upsert:
-                    education.translations?.map((translation) => ({
-                      where: { id: translation.id! },
+                    e.translations?.map((et) => ({
+                      where: {
+                        id: et.id || uuidv4(),
+                      },
                       update: {
-                        name: translation.name || undefined,
-                        degree: translation.degree || undefined,
-                        fieldOfStudy: translation.fieldOfStudy || undefined,
-                        gpa: translation.gpa || undefined,
-                        description: translation.description || undefined,
-                        languageCode: translation.languageCode || undefined,
+                        name: et.name || undefined,
+                        degree: et.degree || undefined,
+                        fieldOfStudy: et.fieldOfStudy || undefined,
+                        gpa: et.gpa || undefined,
+                        description: et.description || undefined,
+                        languageCode: et.languageCode || undefined,
                       },
                       create: {
-                        id: uuidv4(),
-                        name: translation.name || "",
-                        degree: translation.degree || "",
-                        fieldOfStudy: translation.fieldOfStudy || "",
-                        gpa: translation.gpa || "",
-                        description: translation.description || "",
-                        languageCode: translation.languageCode || "",
+                        name: et.name || "",
+                        degree: et.degree || "",
+                        fieldOfStudy: et.fieldOfStudy || "",
+                        gpa: et.gpa || undefined,
+                        description: et.description || "",
+                        languageCode: et.languageCode || "",
                       },
                     })) || [],
                 },
               },
               create: {
-                id: uuidv4(),
-                link: education.link || "",
-                fromDate: education.fromDate || new Date(),
-                toDate: education.toDate || new Date(),
+                link: e.link || "",
+                fromDate: e.fromDate || new Date(),
+                toDate: e.toDate || new Date(),
                 translations: {
                   create:
-                    education.translations?.map((translation) => ({
-                      id: uuidv4(),
-                      name: translation.name || "",
-                      degree: translation.degree || "",
-                      fieldOfStudy: translation.fieldOfStudy || "",
-                      gpa: translation.gpa || "",
-                      description: translation.description || "",
-                      languageCode: translation.languageCode || "",
+                    e.translations?.map((et) => ({
+                      name: et.name || "",
+                      degree: et.degree || "",
+                      fieldOfStudy: et.fieldOfStudy || "",
+                      gpa: et.gpa || undefined,
+                      description: et.description || "",
+                      languageCode: et.languageCode || "",
                     })) || [],
                 },
               },
@@ -912,104 +491,125 @@ export class AboutMeResolver {
         },
         languages: {
           upsert:
-            data.languages?.map((language) => ({
-              where: { id: language.id! },
+            data.languages?.map((l) => ({
+              where: {
+                id: l.id || uuidv4(),
+              },
               update: {
-                name: language.name || undefined,
-                description: language.description || undefined,
-                level: language.level || undefined,
                 translations: {
                   upsert:
-                    language.translations?.map((translation) => ({
-                      where: { id: translation.id! },
+                    l.translations?.map((lt) => ({
+                      where: {
+                        id: lt.id || uuidv4(),
+                      },
                       update: {
-                        name: translation.name || undefined,
-                        description: translation.description || undefined,
-                        level: translation.level || undefined,
-                        languageCode: translation.languageCode || undefined,
+                        name: lt.name || undefined,
+                        description: lt.description || undefined,
+                        level: lt.level || undefined,
+                        languageCode: lt.languageCode || undefined,
                       },
                       create: {
-                        id: uuidv4(),
-                        name: translation.name || "",
-                        description: translation.description || "",
-                        level: translation.level || "",
-                        languageCode: translation.languageCode || "",
+                        name: lt.name || "",
+                        description: lt.description || "",
+                        level: lt.level || "",
+                        languageCode: lt.languageCode || "",
                       },
                     })) || [],
                 },
+                createdAt: l.createdAt || undefined,
+                updatedAt: l.updatedAt || undefined,
               },
               create: {
-                id: uuidv4(),
-                name: language.name || "",
-                description: language.description || "",
-                level: language.level || "",
                 translations: {
                   create:
-                    language.translations?.map((translation) => ({
-                      id: uuidv4(),
-                      name: translation.name || "",
-                      description: translation.description || "",
-                      level: translation.level || "",
-                      languageCode: translation.languageCode || "",
+                    l.translations?.map((lt) => ({
+                      name: lt.name || "",
+                      description: lt.description || "",
+                      level: lt.level || "",
+                      languageCode: lt.languageCode || "",
                     })) || [],
                 },
+                createdAt: l.createdAt || new Date(),
+                updatedAt: l.updatedAt || new Date(),
               },
             })) || [],
         },
         certificates: {
           upsert:
-            data.certificates?.map((certificate) => ({
-              where: { id: certificate.id! },
+            data.certificates?.map((c) => ({
+              where: {
+                id: c.id || uuidv4(),
+              },
               update: {
-                link: certificate.link || undefined,
-                image: certificate.image || undefined,
-                issueDate: certificate.issueDate || undefined,
-                expirationDate: certificate.expirationDate || undefined,
+                link: c.link || undefined,
+                image: c.image || undefined,
+                issueDate: c.issueDate || undefined,
+                expirationDate: c.expirationDate || undefined,
                 translations: {
                   upsert:
-                    certificate.translations?.map((translation) => ({
-                      where: { id: translation.id! },
+                    c.translations?.map((ct) => ({
+                      where: {
+                        id: ct.id || uuidv4(),
+                      },
                       update: {
-                        name: translation.name || undefined,
-                        organization: translation.organization || undefined,
-                        description: translation.description || undefined,
-                        languageCode: translation.languageCode || undefined,
+                        name: ct.name || undefined,
+                        organiation: ct.organiation || undefined,
+                        description: ct.description || undefined,
+                        languageCode: ct.languageCode || undefined,
                       },
                       create: {
-                        id: uuidv4(),
-                        name: translation.name || "",
-                        organization: translation.organization || "",
-                        description: translation.description || "",
-                        languageCode: translation.languageCode || "",
+                        name: ct.name || "",
+                        organiation: ct.organiation || "",
+                        description: ct.description || "",
+                        languageCode: ct.languageCode || "",
                       },
                     })) || [],
                 },
               },
               create: {
-                id: uuidv4(),
-                link: certificate.link || "",
-                image: certificate.image || "",
-                issueDate: certificate.issueDate || new Date(),
-                expirationDate: certificate.expirationDate || new Date(),
+                link: c.link || "",
+                image: c.image || "",
+                issueDate: c.issueDate || new Date(),
+                expirationDate: c.expirationDate || "",
                 translations: {
                   create:
-                    certificate.translations?.map((translation) => ({
-                      id: uuidv4(),
-                      name: translation.name || "",
-                      organization: translation.organization || "",
-                      description: translation.description || "",
-                      languageCode: translation.languageCode || "",
+                    c.translations?.map((ct) => ({
+                      name: ct.name || "",
+                      organiation: ct.organiation || "",
+                      description: ct.description || "",
+                      languageCode: ct.languageCode || "",
                     })) || [],
                 },
               },
             })) || [],
         },
+        translations: {
+          upsert:
+            data.translations?.map((t) => ({
+              where: {
+                id: t.id || uuidv4(),
+              },
+              update: {
+                name: t.name || undefined,
+                about: t.about || undefined,
+                role: t.role || undefined,
+                country: t.country || undefined,
+                city: t.city || undefined,
+                languageCode: t.languageCode || undefined,
+              },
+              create: {
+                name: t.name || "",
+                about: t.about || "",
+                role: t.role || "",
+                country: t.country || "",
+                city: t.city || "",
+                languageCode: t.languageCode || "",
+              },
+            })) || [],
+        },
       },
     });
-  }
 
-  @Query(() => AboutMe, { nullable: true })
-  async getAboutMe(@Ctx() ctx: Context): Promise<AboutMe | null> {
-    return await ctx.prisma.aboutMe.findFirst();
+    return { id: aboutMe.id };
   }
 }

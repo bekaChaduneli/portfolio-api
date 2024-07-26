@@ -157,7 +157,7 @@ export class BlogsResolver {
 
   @Query(() => BlogsResponse, { nullable: true })
   async getBlog(
-    @Arg("id") id: string,
+    @Arg("id", () => String) id: string,
     @Ctx() { prisma }: Context
   ): Promise<BlogsResponse | null> {
     const blog = await prisma.blogs.findUnique({ where: { id } });

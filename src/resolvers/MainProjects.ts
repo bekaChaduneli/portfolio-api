@@ -217,7 +217,7 @@ export class MainProjectResolver {
 
   @Query(() => MainProjectResponse, { nullable: true })
   async getMainProject(
-    @Arg("id") id: string,
+    @Arg("id", () => String) id: string,
     @Ctx() { prisma }: Context
   ): Promise<MainProjectResponse | null> {
     const mainProject = await prisma.mainProjects.findUnique({ where: { id } });
