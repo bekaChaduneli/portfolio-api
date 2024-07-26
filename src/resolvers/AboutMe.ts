@@ -11,7 +11,6 @@ import { Context } from "..";
 import { Prisma } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
 
-// Define input types
 @InputType()
 class CreateAboutMeInput {
   @Field(() => String, { nullable: true })
@@ -258,7 +257,6 @@ class AboutMeTranslationInput {
   languageCode?: string;
 }
 
-// Define response types
 @ObjectType()
 class AboutMeResponse {
   @Field(() => String)

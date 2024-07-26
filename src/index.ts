@@ -1,11 +1,10 @@
-// index.ts
 import express from "express";
 import { PrismaClient } from "@prisma/client";
 import { buildGqlSchema } from "./schema";
 import { config } from "dotenv";
 import { createYoga } from "graphql-yoga";
 import cors from "cors";
-import { mainProjectsExtensions } from "./extensions";
+import { mainProjectsExtensions, archiveExtensions } from "./extensions";
 
 config();
 
@@ -20,7 +19,9 @@ app.use(
 const port = process.env.PORT || 3000;
 export const prisma = new PrismaClient({
   log: ["error"],
-}).$extends(mainProjectsExtensions);
+})
+  .$extends(mainProjectsExtensions)
+  .$extends(archiveExtensions);
 
 export interface Context {
   prisma: typeof prisma;

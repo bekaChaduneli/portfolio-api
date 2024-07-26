@@ -1,13 +1,12 @@
-// extensions.ts
 import { Prisma } from "@prisma/client";
-import { FindManyWithFiltersArgs } from "./types";
+import { ProjectsFindManyWithFiltersArgs } from "./types";
 import { prisma } from "..";
 
 export const mainProjectsExtensions = Prisma.defineExtension({
   name: "mainProjectsExtensions",
   model: {
     mainProjects: {
-      findManyWithFilters(args: FindManyWithFiltersArgs) {
+      findManyWithFilters(args: ProjectsFindManyWithFiltersArgs) {
         const { isReal, skill, dateOrder, ...restArgs } = args;
 
         const where: Prisma.MainProjectsWhereInput = {

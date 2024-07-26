@@ -1,4 +1,3 @@
-// resolvers/MainProjectResolver.ts
 import {
   Arg,
   Ctx,

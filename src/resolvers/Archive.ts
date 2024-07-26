@@ -28,6 +28,9 @@ class CreateArchiveInput {
 
   @Field(() => [CreateArchiveTranslationInput], { nullable: true })
   translations?: CreateArchiveTranslationInput[];
+
+  @Field(() => Boolean, { nullable: true })
+  isReal?: boolean;
 }
 
 @InputType()
@@ -67,6 +70,9 @@ class UpdateArchiveInput {
 
   @Field(() => [String], { nullable: true })
   deletedTranslations?: string[];
+
+  @Field(() => Boolean, { nullable: true })
+  isReal?: boolean;
 }
 
 @InputType()
@@ -106,6 +112,7 @@ export class ArchiveResolver {
         github: data.github || "",
         background: data.background || "",
         skills: data.skills || [],
+        isReal: data.isReal || false,
         translations: {
           createMany: {
             data:
@@ -135,6 +142,7 @@ export class ArchiveResolver {
         github: data.github || undefined,
         background: data.background || undefined,
         skills: data.skills || undefined,
+        isReal: data.isReal || undefined,
         translations: {
           upsert:
             data.translations?.map((t) => ({
@@ -175,8 +183,18 @@ export class ArchiveResolver {
   }
 
   @Query(() => [ArchiveResponse])
-  async getArchives(@Ctx() { prisma }: Context): Promise<ArchiveResponse[]> {
-    const archives = await prisma.archive.findMany();
+  async getArchives(
+    @Ctx() { prisma }: Context,
+    @Arg("isReal", () => Boolean, { nullable: true }) isReal?: boolean,
+    @Arg("skill", () => String, { nullable: true }) skill?: string,
+    @Arg("dateOrder", () => String, { nullable: true })
+    dateOrder?: "asc" | "desc"
+  ): Promise<ArchiveResponse[]> {
+    const archives = await prisma.archive.findManyWithFilters({
+      isReal,
+      skill,
+      dateOrder,
+    });
     return archives.map((archive) => ({ id: archive.id }));
   }
 
