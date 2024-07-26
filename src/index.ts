@@ -1,9 +1,11 @@
+// index.ts
 import express from "express";
 import { PrismaClient } from "@prisma/client";
 import { buildGqlSchema } from "./schema";
 import { config } from "dotenv";
 import { createYoga } from "graphql-yoga";
 import cors from "cors";
+import { mainProjectsExtensions } from "./extensions";
 
 config();
 
@@ -18,12 +20,10 @@ app.use(
 const port = process.env.PORT || 3000;
 export const prisma = new PrismaClient({
   log: ["error"],
-});
-
-const xprisma = prisma;
+}).$extends(mainProjectsExtensions);
 
 export interface Context {
-  prisma: PrismaClient;
+  prisma: typeof prisma;
 }
 
 async function main() {
@@ -31,11 +31,11 @@ async function main() {
 
   const yoga = createYoga({
     schema,
-    context: (): Context => ({ prisma: xprisma as PrismaClient }),
+    context: (): Context => ({ prisma }),
     cors: {
       origin: "*",
     },
-    // graphiql: false,
+    graphiql: process.env.NODE_ENV === "development",
   });
 
   app.use(yoga.graphqlEndpoint, yoga);

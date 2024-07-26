@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 export interface CustomFilter {
   date?: {
     start: Date;
@@ -6,4 +8,11 @@ export interface CustomFilter {
   skills?: string[];
   isReal?: boolean;
   order?: "asc" | "desc";
+}
+
+export interface FindManyWithFiltersArgs
+  extends Omit<Prisma.MainProjectsFindManyArgs, "where" | "orderBy"> {
+  isReal?: boolean;
+  skill?: string;
+  dateOrder?: "asc" | "desc";
 }

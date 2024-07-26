@@ -1,3 +1,4 @@
+// resolvers/MainProjectResolver.ts
 import {
   Arg,
   Ctx,
@@ -217,18 +218,18 @@ export class MainProjectResolver {
 
   @Query(() => [MainProjectResponse])
   async getMainProjects(
-    @Ctx() { prisma }: Context
+    @Ctx() { prisma }: Context,
+    @Arg("isReal", () => Boolean, { nullable: true }) isReal?: boolean,
+    @Arg("skill", () => String, { nullable: true }) skill?: string,
+    @Arg("dateOrder", () => String, { nullable: true })
+    dateOrder?: "asc" | "desc"
   ): Promise<MainProjectResponse[]> {
-    const mainProjects = await prisma.mainProjects.findMany();
-    return mainProjects.map((project) => ({ id: project.id }));
-  }
+    const mainProjects = await prisma.mainProjects.findManyWithFilters({
+      isReal,
+      skill,
+      dateOrder,
+    });
 
-  @Query(() => MainProjectResponse, { nullable: true })
-  async getMainProject(
-    @Arg("id", () => String) id: string,
-    @Ctx() { prisma }: Context
-  ): Promise<MainProjectResponse | null> {
-    const mainProject = await prisma.mainProjects.findUnique({ where: { id } });
-    return mainProject ? { id: mainProject.id } : null;
+    return mainProjects.map((project) => ({ id: project.id }));
   }
 }
