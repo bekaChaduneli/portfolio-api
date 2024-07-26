@@ -182,22 +182,6 @@ export class ArchiveResolver {
     return { id: archive.id };
   }
 
-  @Query(() => [ArchiveResponse])
-  async getArchives(
-    @Ctx() { prisma }: Context,
-    @Arg("isReal", () => Boolean, { nullable: true }) isReal?: boolean,
-    @Arg("skill", () => String, { nullable: true }) skill?: string,
-    @Arg("dateOrder", () => String, { nullable: true })
-    dateOrder?: "asc" | "desc"
-  ): Promise<ArchiveResponse[]> {
-    const archives = await prisma.archive.findManyWithFilters({
-      isReal,
-      skill,
-      dateOrder,
-    });
-    return archives.map((archive) => ({ id: archive.id }));
-  }
-
   @Query(() => ArchiveResponse, { nullable: true })
   async getArchive(
     @Arg("id", () => String) id: string,

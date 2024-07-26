@@ -4,7 +4,7 @@ import { buildGqlSchema } from "./schema";
 import { config } from "dotenv";
 import { createYoga } from "graphql-yoga";
 import cors from "cors";
-import { mainProjectsExtensions, archiveExtensions } from "./extensions";
+import { archiveExtensions, mainProjectsExtensions } from "./extensions";
 
 config();
 
@@ -19,12 +19,14 @@ app.use(
 const port = process.env.PORT || 3000;
 export const prisma = new PrismaClient({
   log: ["error"],
-})
+});
+
+const xprisma = prisma
   .$extends(mainProjectsExtensions)
   .$extends(archiveExtensions);
 
 export interface Context {
-  prisma: typeof prisma;
+  prisma: PrismaClient;
 }
 
 async function main() {
@@ -32,11 +34,11 @@ async function main() {
 
   const yoga = createYoga({
     schema,
-    context: (): Context => ({ prisma }),
+    context: (): Context => ({ prisma: xprisma as unknown as PrismaClient }),
     cors: {
       origin: "*",
     },
-    graphiql: process.env.NODE_ENV === "development",
+    // graphiql: false,
   });
 
   app.use(yoga.graphqlEndpoint, yoga);

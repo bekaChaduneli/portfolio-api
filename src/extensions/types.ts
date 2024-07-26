@@ -10,15 +10,15 @@ export interface CustomFilter {
   order?: "asc" | "desc";
 }
 
-export interface ProjectsFindManyWithFiltersArgs
-  extends Omit<Prisma.MainProjectsFindManyArgs, "where" | "orderBy"> {
+export interface ArchiveFindManyWithFiltersArgs
+  extends Omit<Prisma.ArchiveFindManyArgs, "where" | "orderBy"> {
   isReal?: boolean;
   skill?: string;
   dateOrder?: "asc" | "desc";
 }
 
-export interface ArchiveFindManyWithFiltersArgs
-  extends Omit<Prisma.ArchiveFindManyArgs, "where" | "orderBy"> {
+export interface ProjectsFindManyWithFiltersArgs
+  extends Omit<Prisma.MainProjectsFindManyArgs, "where" | "orderBy"> {
   isReal?: boolean;
   skill?: string;
   dateOrder?: "asc" | "desc";

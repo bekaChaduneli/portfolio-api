@@ -214,21 +214,4 @@ export class MainProjectResolver {
 
     return { id: mainProject.id };
   }
-
-  @Query(() => [MainProjectResponse])
-  async getMainProjects(
-    @Ctx() { prisma }: Context,
-    @Arg("isReal", () => Boolean, { nullable: true }) isReal?: boolean,
-    @Arg("skill", () => String, { nullable: true }) skill?: string,
-    @Arg("dateOrder", () => String, { nullable: true })
-    dateOrder?: "asc" | "desc"
-  ): Promise<MainProjectResponse[]> {
-    const mainProjects = await prisma.mainProjects.findManyWithFilters({
-      isReal,
-      skill,
-      dateOrder,
-    });
-
-    return mainProjects.map((project) => ({ id: project.id }));
-  }
 }
