@@ -290,6 +290,7 @@ model MainProjects {
   images            String[]
   skills            String[]
   github            String
+  isReal            Boolean
 
   translations MainProjectsTranslations[]
 
@@ -315,11 +316,11 @@ model MainProjectsTranslations {
 }
 
 model Archive {
-  id         String @id @default(cuid())
-  link       String
-  github     String
-  background String
-
+  id           String                @id @default(cuid())
+  link         String
+  github       String
+  background   String
+  isReal       Boolean
   skills       String[]
   translations ArchiveTranslations[]
 

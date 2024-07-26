@@ -4,6 +4,7 @@ import { buildGqlSchema } from "./schema";
 import { config } from "dotenv";
 import { createYoga } from "graphql-yoga";
 import cors from "cors";
+import { archiveExtensions, mainProjectsExtensions } from "./extensions";
 
 config();
 
@@ -20,7 +21,9 @@ export const prisma = new PrismaClient({
   log: ["error"],
 });
 
-const xprisma = prisma;
+const xprisma = prisma
+  .$extends(mainProjectsExtensions)
+  .$extends(archiveExtensions);
 
 export interface Context {
   prisma: PrismaClient;
@@ -31,7 +34,7 @@ async function main() {
 
   const yoga = createYoga({
     schema,
-    context: (): Context => ({ prisma: xprisma as PrismaClient }),
+    context: (): Context => ({ prisma: xprisma as unknown as PrismaClient }),
     cors: {
       origin: "*",
     },
