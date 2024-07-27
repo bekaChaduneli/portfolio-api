@@ -173,8 +173,11 @@ export class RecommendationResolver {
   async getRecommendations(
     @Ctx() { prisma }: Context
   ): Promise<RecommendationResponse[]> {
-    const recommendations = await prisma.recommendations.findMany();
-    return recommendations.map((recommendation) => ({ id: recommendation.id }));
+    return await prisma.recommendations.findMany({
+      include: {
+        translations: true,
+      },
+    });
   }
 
   @Query(() => RecommendationResponse, { nullable: true })
@@ -182,9 +185,11 @@ export class RecommendationResolver {
     @Arg("id", () => String) id: string,
     @Ctx() { prisma }: Context
   ): Promise<RecommendationResponse | null> {
-    const recommendations = await prisma.recommendations.findUnique({
+    return await prisma.recommendations.findUnique({
       where: { id },
+      include: {
+        translations: true,
+      },
     });
-    return recommendations ? { id: recommendations.id } : null;
   }
 }

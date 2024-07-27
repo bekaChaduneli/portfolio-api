@@ -5,6 +5,7 @@ import {
   Resolver,
   ObjectType,
   Field,
+  Query,
   InputType,
 } from "type-graphql";
 import { Context } from "..";
@@ -134,5 +135,27 @@ export class TopSkillResolver {
     }
 
     return { id: topSkill.id };
+  }
+
+  @Query(() => [TopSkillResponse])
+  async getTopSkills(@Ctx() { prisma }: Context): Promise<TopSkillResponse[]> {
+    return await prisma.topSkills.findMany({
+      include: {
+        translations: true,
+      },
+    });
+  }
+
+  @Query(() => TopSkillResponse, { nullable: true })
+  async getTopSkill(
+    @Arg("id", () => String) id: string,
+    @Ctx() { prisma }: Context
+  ): Promise<TopSkillResponse | null> {
+    return await prisma.topSkills.findUnique({
+      where: { id },
+      include: {
+        translations: true,
+      },
+    });
   }
 }

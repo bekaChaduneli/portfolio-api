@@ -214,7 +214,7 @@ export class BookResolver {
     return await prisma.books.findUnique({
       where: { id },
       include: {
-        translations: true, // Include translations if needed
+        translations: true,
       },
     });
   }
@@ -223,7 +223,7 @@ export class BookResolver {
   async getAllBooks(@Ctx() { prisma }: Context): Promise<BookResponse[]> {
     return await prisma.books.findMany({
       include: {
-        translations: true, // Include translations if needed
+        translations: true,
       },
     });
   }
@@ -236,7 +236,7 @@ export class BookResolver {
     return await prisma.books.findMany({
       where: { type },
       include: {
-        translations: true, // Include translations if needed
+        translations: true,
       },
     });
   }
@@ -249,7 +249,7 @@ export class BookResolver {
     return await prisma.books.findMany({
       where: { finished },
       include: {
-        translations: true, // Include translations if needed
+        translations: true,
       },
     });
   }

@@ -151,8 +151,11 @@ export class BlogsResolver {
 
   @Query(() => [BlogsResponse])
   async getBlogs(@Ctx() { prisma }: Context): Promise<BlogsResponse[]> {
-    const blogs = await prisma.blogs.findMany();
-    return blogs.map((blog) => ({ id: blog.id }));
+    return await prisma.blogs.findMany({
+      include: {
+        translations: true,
+      },
+    });
   }
 
   @Query(() => BlogsResponse, { nullable: true })
@@ -160,7 +163,11 @@ export class BlogsResolver {
     @Arg("id", () => String) id: string,
     @Ctx() { prisma }: Context
   ): Promise<BlogsResponse | null> {
-    const blog = await prisma.blogs.findUnique({ where: { id } });
-    return blog ? { id: blog.id } : null;
+    return await prisma.blogs.findUnique({
+      where: { id },
+      include: {
+        translations: true,
+      },
+    });
   }
 }

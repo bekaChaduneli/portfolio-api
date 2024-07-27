@@ -151,8 +151,11 @@ export class ServicesResolver {
 
   @Query(() => [ServicesResponse])
   async getServices(@Ctx() { prisma }: Context): Promise<ServicesResponse[]> {
-    const services = await prisma.services.findMany();
-    return services.map((service) => ({ id: service.id }));
+    return await prisma.services.findMany({
+      include: {
+        translations: true,
+      },
+    });
   }
 
   @Query(() => ServicesResponse, { nullable: true })
@@ -160,7 +163,11 @@ export class ServicesResolver {
     @Arg("id", () => String) id: string,
     @Ctx() { prisma }: Context
   ): Promise<ServicesResponse | null> {
-    const service = await prisma.services.findUnique({ where: { id } });
-    return service ? { id: service.id } : null;
+    return await prisma.services.findUnique({
+      where: { id },
+      include: {
+        translations: true,
+      },
+    });
   }
 }

@@ -159,8 +159,11 @@ export class SkillsResolver {
 
   @Query(() => [SkillsResponse])
   async getSkills(@Ctx() { prisma }: Context): Promise<SkillsResponse[]> {
-    const skills = await prisma.skills.findMany();
-    return skills.map((skill) => ({ id: skill.id }));
+    return await prisma.skills.findMany({
+      include: {
+        translations: true,
+      },
+    });
   }
 
   @Query(() => SkillsResponse, { nullable: true })
@@ -168,7 +171,11 @@ export class SkillsResolver {
     @Arg("id", () => String) id: string,
     @Ctx() { prisma }: Context
   ): Promise<SkillsResponse | null> {
-    const skill = await prisma.skills.findUnique({ where: { id } });
-    return skill ? { id: skill.id } : null;
+    return await prisma.skills.findUnique({
+      where: { id },
+      include: {
+        translations: true,
+      },
+    });
   }
 }
