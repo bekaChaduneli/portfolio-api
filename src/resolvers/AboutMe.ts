@@ -614,8 +614,32 @@ export class AboutMeResolver {
 
   @Query(() => [AboutMeResponse])
   async getAboutMes(@Ctx() { prisma }: Context): Promise<AboutMeResponse[]> {
-    const aboutMes = await prisma.aboutMe.findMany();
-    return aboutMes.map((aboutMe) => ({ id: aboutMe.id }));
+    const aboutMes = await prisma.aboutMe.findMany({
+      include: {
+        works: {
+          include: {
+            translations: true,
+          },
+        },
+        education: {
+          include: {
+            translations: true,
+          },
+        },
+        languages: {
+          include: {
+            translations: true,
+          },
+        },
+        certificates: {
+          include: {
+            translations: true,
+          },
+        },
+        translations: true,
+      },
+    });
+    return aboutMes;
   }
 
   @Query(() => AboutMeResponse, { nullable: true })
@@ -623,7 +647,32 @@ export class AboutMeResolver {
     @Arg("id", () => String) id: string,
     @Ctx() { prisma }: Context
   ): Promise<AboutMeResponse | null> {
-    const aboutMe = await prisma.aboutMe.findUnique({ where: { id } });
-    return aboutMe ? { id: aboutMe.id } : null;
+    const aboutMe = await prisma.aboutMe.findUnique({
+      where: { id },
+      include: {
+        works: {
+          include: {
+            translations: true,
+          },
+        },
+        education: {
+          include: {
+            translations: true,
+          },
+        },
+        languages: {
+          include: {
+            translations: true,
+          },
+        },
+        certificates: {
+          include: {
+            translations: true,
+          },
+        },
+        translations: true,
+      },
+    });
+    return aboutMe;
   }
 }

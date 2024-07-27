@@ -187,8 +187,12 @@ export class ArchiveResolver {
     @Arg("id", () => String) id: string,
     @Ctx() { prisma }: Context
   ): Promise<ArchiveResponse | null> {
-    const archive = await prisma.archive.findUnique({ where: { id } });
-    return archive ? { id: archive.id } : null;
+    return await prisma.archive.findUnique({
+      where: { id },
+      include: {
+        translations: true,
+      },
+    });
   }
 
   @Query(() => [ArchiveResponse])

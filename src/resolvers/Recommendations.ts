@@ -5,6 +5,7 @@ import {
   Resolver,
   ObjectType,
   Field,
+  Query,
   InputType,
 } from "type-graphql";
 import { Context } from "..";
@@ -166,5 +167,24 @@ export class RecommendationResolver {
     }
 
     return { id: recommendation.id };
+  }
+
+  @Query(() => [RecommendationResponse])
+  async getRecommendations(
+    @Ctx() { prisma }: Context
+  ): Promise<RecommendationResponse[]> {
+    const recommendations = await prisma.recommendations.findMany();
+    return recommendations.map((recommendation) => ({ id: recommendation.id }));
+  }
+
+  @Query(() => RecommendationResponse, { nullable: true })
+  async getRecommendation(
+    @Arg("id", () => String) id: string,
+    @Ctx() { prisma }: Context
+  ): Promise<RecommendationResponse | null> {
+    const recommendations = await prisma.recommendations.findUnique({
+      where: { id },
+    });
+    return recommendations ? { id: recommendations.id } : null;
   }
 }
