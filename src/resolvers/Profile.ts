@@ -5,10 +5,10 @@ import {
   Resolver,
   ObjectType,
   Field,
+  Query,
   InputType,
 } from "type-graphql";
 import { Context } from "..";
-import { Prisma } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
 
 @InputType()
@@ -709,5 +709,24 @@ export class ProfileResolver {
     });
 
     return { id: profile.id };
+  }
+
+  @Query(() => ProfileResponse, { nullable: true })
+  async getProfile(
+    @Arg("id", () => String) id: string,
+    @Ctx() ctx: Context
+  ): Promise<ProfileResponse | null> {
+    return await ctx.prisma.profile.findUnique({
+      where: { id },
+      include: {
+        translations: {
+          include: {
+            works: { include: { translations: true } },
+            hobbys: { include: { translations: true } },
+            questions: { include: { translations: true } },
+          },
+        },
+      },
+    });
   }
 }
