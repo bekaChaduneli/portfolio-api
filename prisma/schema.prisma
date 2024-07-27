@@ -22,7 +22,7 @@ model Admin {
 
 model Books {
   id           String              @id @default(cuid())
-  index        Int                 @unique @default(autoincrement())
+  index        String              @unique
   pages        String
   readedPages  String
   type         String

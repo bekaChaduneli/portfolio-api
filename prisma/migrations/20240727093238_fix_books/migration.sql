@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Books" ALTER COLUMN "index" DROP DEFAULT,
+ALTER COLUMN "index" SET DATA TYPE TEXT;
+DROP SEQUENCE "Books_index_seq";

@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 @InputType()
 class CreateBookInput {
   @Field(() => String, { nullable: true })
-  index: number | undefined;
+  index: string | undefined;
 
   @Field(() => String, { nullable: true })
   pages: string | undefined;
@@ -62,7 +62,7 @@ class UpdateBookInput {
   id: string | undefined;
 
   @Field(() => String, { nullable: true })
-  index: number | undefined;
+  index: string | undefined;
 
   @Field(() => String, { nullable: true })
   pages: string | undefined;
@@ -125,7 +125,7 @@ export class BookResolver {
   ): Promise<BookResponse> {
     const book = await prisma.books.create({
       data: {
-        index: data.index,
+        index: data.index || "",
         pages: data.pages || "",
         readedPages: data.readedPages || "",
         type: data.type || "",
