@@ -4,6 +4,7 @@ import {
   Mutation,
   Resolver,
   ObjectType,
+  Query,
   Field,
   InputType,
 } from "type-graphql";
@@ -609,5 +610,20 @@ export class AboutMeResolver {
     });
 
     return { id: aboutMe.id };
+  }
+
+  @Query(() => [AboutMeResponse])
+  async getAboutMes(@Ctx() { prisma }: Context): Promise<AboutMeResponse[]> {
+    const aboutMes = await prisma.aboutMe.findMany();
+    return aboutMes.map((aboutMe) => ({ id: aboutMe.id }));
+  }
+
+  @Query(() => AboutMeResponse, { nullable: true })
+  async getAboutMe(
+    @Arg("id", () => String) id: string,
+    @Ctx() { prisma }: Context
+  ): Promise<AboutMeResponse | null> {
+    const aboutMe = await prisma.aboutMe.findUnique({ where: { id } });
+    return aboutMe ? { id: aboutMe.id } : null;
   }
 }
