@@ -4,6 +4,7 @@ import {
   Mutation,
   Resolver,
   ObjectType,
+  Query,
   Field,
   InputType,
 } from "type-graphql";
@@ -203,5 +204,53 @@ export class BookResolver {
     }
 
     return { id: book.id };
+  }
+
+  @Query(() => BookResponse, { nullable: true })
+  async getBook(
+    @Arg("id", () => String) id: string,
+    @Ctx() { prisma }: Context
+  ): Promise<BookResponse | null> {
+    return await prisma.books.findUnique({
+      where: { id },
+      include: {
+        translations: true, // Include translations if needed
+      },
+    });
+  }
+
+  @Query(() => [BookResponse])
+  async getAllBooks(@Ctx() { prisma }: Context): Promise<BookResponse[]> {
+    return await prisma.books.findMany({
+      include: {
+        translations: true, // Include translations if needed
+      },
+    });
+  }
+
+  @Query(() => [BookResponse])
+  async getBooksByType(
+    @Arg("type", () => String) type: string,
+    @Ctx() { prisma }: Context
+  ): Promise<BookResponse[]> {
+    return await prisma.books.findMany({
+      where: { type },
+      include: {
+        translations: true, // Include translations if needed
+      },
+    });
+  }
+
+  @Query(() => [BookResponse])
+  async getBooksByFinishedStatus(
+    @Arg("finished", () => Boolean) finished: boolean,
+    @Ctx() { prisma }: Context
+  ): Promise<BookResponse[]> {
+    return await prisma.books.findMany({
+      where: { finished },
+      include: {
+        translations: true, // Include translations if needed
+      },
+    });
   }
 }
