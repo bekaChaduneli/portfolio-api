@@ -5,6 +5,7 @@ import {
   Resolver,
   ObjectType,
   Field,
+  Query,
   InputType,
 } from "type-graphql";
 import { Context } from "..";
@@ -166,5 +167,27 @@ export class PostResolver {
     }
 
     return { id: post.id };
+  }
+
+  @Query(() => PostResponse, { nullable: true })
+  async getPost(
+    @Arg("id", () => String) id: string,
+    @Ctx() { prisma }: Context
+  ): Promise<PostResponse | null> {
+    return await prisma.posts.findUnique({
+      where: { id },
+      include: {
+        translations: true,
+      },
+    });
+  }
+
+  @Query(() => [PostResponse])
+  async getAllPosts(@Ctx() { prisma }: Context): Promise<PostResponse[]> {
+    return await prisma.posts.findMany({
+      include: {
+        translations: true,
+      },
+    });
   }
 }
