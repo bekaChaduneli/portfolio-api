@@ -190,4 +190,13 @@ export class ArchiveResolver {
     const archive = await prisma.archive.findUnique({ where: { id } });
     return archive ? { id: archive.id } : null;
   }
+
+  @Query(() => [ArchiveResponse])
+  async getAllArchives(@Ctx() { prisma }: Context): Promise<ArchiveResponse[]> {
+    return await prisma.archive.findMany({
+      include: {
+        translations: true,
+      },
+    });
+  }
 }
