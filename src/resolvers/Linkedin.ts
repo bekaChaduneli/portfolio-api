@@ -4,6 +4,7 @@ import {
   Mutation,
   Resolver,
   ObjectType,
+  Query,
   Field,
   InputType,
 } from "type-graphql";
@@ -172,5 +173,29 @@ export class LinkedinResolver {
     }
 
     return { id: linkedin.id };
+  }
+
+  @Query(() => LinkedinResponse, { nullable: true })
+  async getLinkedin(
+    @Arg("id", () => String) id: string,
+    @Ctx() { prisma }: Context
+  ): Promise<LinkedinResponse | null> {
+    return await prisma.linkedin.findUnique({
+      where: { id },
+      include: {
+        translations: true,
+      },
+    });
+  }
+
+  @Query(() => [LinkedinResponse])
+  async getAllLinkedin(
+    @Ctx() { prisma }: Context
+  ): Promise<LinkedinResponse[]> {
+    return await prisma.linkedin.findMany({
+      include: {
+        translations: true,
+      },
+    });
   }
 }
