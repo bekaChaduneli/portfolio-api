@@ -8,7 +8,7 @@ import {
   InputType,
 } from "type-graphql";
 import { Context } from "..";
-import { Prisma } from "@prisma/client";
+import { Admin, Prisma } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import { hashToken } from "../utils";
 
@@ -21,6 +21,18 @@ class CreateAdminInput {
 
   @Field(() => String, { nullable: true })
   password: string | undefined;
+}
+
+@ObjectType()
+class IsTokenValidResponse {
+  @Field(() => Boolean, { nullable: true })
+  isValid: boolean | undefined;
+
+  @Field(() => String, { nullable: true })
+  token: string | undefined;
+
+  @Field(() => AdminResponse, { nullable: true })
+  admin: Admin | undefined;
 }
 
 @InputType()
@@ -110,5 +122,27 @@ export class AdminResolver {
     const token = jwt.sign({ id: admin.id }, process.env.JWT_SECRET!);
 
     return { token, admin };
+  }
+
+  @Mutation(() => IsTokenValidResponse)
+  async validateToken(
+    @Arg("token", () => String) token: string,
+    @Ctx() { prisma }: Context
+  ) {
+    try {
+      const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+
+      const admin = await prisma.admin.findUnique({
+        where: { id: decoded.id },
+      });
+
+      if (!admin) {
+        throw new GraphQLError("ეს ადმინი არ არსებობს");
+      }
+
+      return { token, isValid: true, admin };
+    } catch (error) {
+      return { isValid: false };
+    }
   }
 }
