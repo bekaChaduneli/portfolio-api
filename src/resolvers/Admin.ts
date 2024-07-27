@@ -10,7 +10,6 @@ import {
 import { Context } from "..";
 import { Prisma } from "@prisma/client";
 import jwt from "jsonwebtoken";
-// import { comparePassword, hashToken } from "../utils";
 import { hashToken } from "../utils";
 
 import { GraphQLError } from "graphql";
@@ -102,9 +101,6 @@ export class AdminResolver {
       throw new GraphQLError("Admin not found!");
     }
 
-    console.log(password);
-    console.log(admin.password);
-
     const valid = hashToken(password) === admin.password;
 
     if (!valid) {
@@ -113,6 +109,6 @@ export class AdminResolver {
 
     const token = jwt.sign({ id: admin.id }, process.env.JWT_SECRET!);
 
-    return { token, admin: { id: admin.id } };
+    return { token, admin };
   }
 }
