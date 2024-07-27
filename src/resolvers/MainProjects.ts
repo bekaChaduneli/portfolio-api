@@ -214,4 +214,60 @@ export class MainProjectResolver {
 
     return { id: mainProject.id };
   }
+
+  @Query(() => MainProjectResponse, { nullable: true })
+  async getMainProject(
+    @Arg("id", () => String) id: string,
+    @Ctx() { prisma }: Context
+  ): Promise<MainProjectResponse | null> {
+    return await prisma.mainProjects.findUnique({
+      where: { id },
+      include: {
+        translations: true,
+      },
+    });
+  }
+
+  @Query(() => [MainProjectResponse])
+  async getAllMainProjects(
+    @Ctx() { prisma }: Context
+  ): Promise<MainProjectResponse[]> {
+    return await prisma.mainProjects.findMany({
+      include: {
+        translations: true,
+      },
+    });
+  }
+
+  @Query(() => [MainProjectResponse])
+  async getMainProjectsByIsReal(
+    @Arg("isReal", () => Boolean) isReal: boolean,
+    @Ctx() { prisma }: Context
+  ): Promise<MainProjectResponse[]> {
+    return await prisma.mainProjects.findMany({
+      where: {
+        isReal,
+      },
+      include: {
+        translations: true,
+      },
+    });
+  }
+
+  @Query(() => [MainProjectResponse])
+  async getMainProjectsBySkills(
+    @Arg("skills", () => [String]) skills: string[],
+    @Ctx() { prisma }: Context
+  ): Promise<MainProjectResponse[]> {
+    return await prisma.mainProjects.findMany({
+      where: {
+        skills: {
+          hasSome: skills,
+        },
+      },
+      include: {
+        translations: true,
+      },
+    });
+  }
 }
