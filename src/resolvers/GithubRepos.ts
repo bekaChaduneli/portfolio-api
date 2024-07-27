@@ -5,6 +5,7 @@ import {
   Resolver,
   ObjectType,
   Field,
+  Query,
   InputType,
 } from "type-graphql";
 import { Context } from "..";
@@ -154,5 +155,55 @@ export class GithubRepoResolver {
     }
 
     return { id: githubRepo.id };
+  }
+
+  @Query(() => GithubRepoResponse, { nullable: true })
+  async getGithubRepo(
+    @Arg("id", () => String) id: string,
+    @Ctx() { prisma }: Context
+  ): Promise<GithubRepoResponse | null> {
+    return await prisma.githubRepos.findUnique({
+      where: { id },
+      include: {
+        translations: true,
+      },
+    });
+  }
+
+  @Query(() => [GithubRepoResponse])
+  async getAllGithubRepos(
+    @Ctx() { prisma }: Context
+  ): Promise<GithubRepoResponse[]> {
+    return await prisma.githubRepos.findMany({
+      include: {
+        translations: true,
+      },
+    });
+  }
+
+  @Query(() => [GithubRepoResponse])
+  async getGithubReposByLanguage(
+    @Arg("language", () => String) language: string,
+    @Ctx() { prisma }: Context
+  ): Promise<GithubRepoResponse[]> {
+    return await prisma.githubRepos.findMany({
+      where: { language },
+      include: {
+        translations: true,
+      },
+    });
+  }
+
+  @Query(() => [GithubRepoResponse])
+  async getGithubReposByStars(
+    @Arg("stars", () => String) stars: string,
+    @Ctx() { prisma }: Context
+  ): Promise<GithubRepoResponse[]> {
+    return await prisma.githubRepos.findMany({
+      where: { stars },
+      include: {
+        translations: true,
+      },
+    });
   }
 }
