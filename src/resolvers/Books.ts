@@ -159,7 +159,7 @@ export class BookResolver {
     const book = await prisma.books.update({
       where: { id: data.id },
       data: {
-        index: data.index,
+        index: data.index || undefined,
         pages: data.pages || undefined,
         readedPages: data.readedPages || undefined,
         type: data.type || undefined,
@@ -171,7 +171,7 @@ export class BookResolver {
           upsert:
             data.translations?.map((t) => ({
               where: {
-                id: t.id || uuidv4(),
+                id: t.id || uuidv4(), // Ensure this is a valid identifier for upsert
               },
               update: {
                 title: t.title || undefined,
