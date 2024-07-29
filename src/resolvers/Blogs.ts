@@ -87,6 +87,7 @@ export class BlogsResolver {
     @Arg("data", () => CreateBlogsInput) data: CreateBlogsInput,
     @Ctx() { prisma }: Context
   ): Promise<BlogsResponse> {
+    console.log(data);
     const blogs = await prisma.blogs.create({
       data: {
         link: data.link || "",
@@ -97,8 +98,8 @@ export class BlogsResolver {
               data.translations?.map((t) => ({
                 headline: t.headline || "",
                 about: t.about || "",
-                languageCode: t.languageCode || "",
                 markdown: t.markdown || "",
+                languageCode: t.languageCode || "",
               })) || [],
           },
         },
@@ -127,14 +128,14 @@ export class BlogsResolver {
               update: {
                 headline: t.headline || undefined,
                 about: t.about || undefined,
+                markdown: t.markdown || undefined,
                 languageCode: t.languageCode || undefined,
-                markdown: t.markdown || undefined, // Handle markdown
               },
               create: {
                 headline: t.headline || "",
                 about: t.about || "",
+                markdown: t.markdown || undefined,
                 languageCode: t.languageCode || "",
-                markdown: t.markdown || "", // Handle markdown
                 blogs: {
                   connect: { id: data.id || "" },
                 },
