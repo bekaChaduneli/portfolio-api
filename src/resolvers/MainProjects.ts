@@ -58,6 +58,9 @@ class CreateMainProjectTranslationInput {
 
   @Field(() => String, { nullable: true })
   languageCode?: string;
+
+  @Field(() => String, { nullable: true })
+  markdown?: string;
 }
 
 @InputType()
@@ -114,6 +117,9 @@ class UpdateMainProjectTranslationInput {
   location?: string;
 
   @Field(() => String, { nullable: true })
+  markdown?: string;
+
+  @Field(() => String, { nullable: true })
   languageCode?: string;
 }
 
@@ -146,6 +152,7 @@ export class MainProjectResolver {
               data.translations?.map((t) => ({
                 description: t.description || "",
                 name: t.name || "",
+                markdown: t.markdown || "",
                 about: t.about || "",
                 location: t.location || "",
                 languageCode: t.languageCode || "",
@@ -184,6 +191,7 @@ export class MainProjectResolver {
                 description: t.description || undefined,
                 name: t.name || undefined,
                 about: t.about || undefined,
+                markdown: t.markdown || undefined,
                 location: t.location || undefined,
                 languageCode: t.languageCode || undefined,
               },
@@ -192,6 +200,7 @@ export class MainProjectResolver {
                 name: t.name || "",
                 about: t.about || "",
                 location: t.location || "",
+                markdown: t.markdown || undefined,
                 languageCode: t.languageCode || "",
                 mainProjects: {
                   connect: { id: data.id || "" },

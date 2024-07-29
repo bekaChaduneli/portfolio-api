@@ -303,6 +303,7 @@ model MainProjectsTranslations {
   languageCode   String
   description    String
   name           String
+  markdown       String
   about          String
   location       String
   mainProjects   MainProjects @relation(fields: [mainProjectsId], references: [id], onDelete: Cascade)
@@ -335,6 +336,7 @@ model ArchiveTranslations {
   name         String
   archive      Archive @relation(fields: [archiveId], references: [id], onDelete: Cascade)
   archiveId    String
+  markdown     String
   location     String
 
   createdAt DateTime @default(now())
