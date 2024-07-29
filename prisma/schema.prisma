@@ -311,7 +311,6 @@ model MainProjectsTranslations {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  archiveId String?
 
   @@unique([mainProjectsId, languageCode])
 }
@@ -336,7 +335,6 @@ model ArchiveTranslations {
   name         String
   archive      Archive @relation(fields: [archiveId], references: [id], onDelete: Cascade)
   archiveId    String
-  markdown     String
   location     String
 
   createdAt DateTime @default(now())

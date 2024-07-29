@@ -45,9 +45,6 @@ class CreateArchiveTranslationInput {
   languageCode?: string;
 
   @Field(() => String, { nullable: true })
-  markdown?: string;
-
-  @Field(() => String, { nullable: true })
   location?: string;
 }
 
@@ -93,9 +90,6 @@ class UpdateArchiveTranslationInput {
   languageCode?: string;
 
   @Field(() => String, { nullable: true })
-  markdown?: string;
-
-  @Field(() => String, { nullable: true })
   location?: string;
 }
 
@@ -127,7 +121,6 @@ export class ArchiveResolver {
                 name: t.name || "",
                 languageCode: t.languageCode || "",
                 location: t.location || "",
-                markdown: t.markdown || "",
               })) || [],
           },
         },
@@ -160,14 +153,12 @@ export class ArchiveResolver {
                 description: t.description || undefined,
                 name: t.name || undefined,
                 languageCode: t.languageCode || undefined,
-                markdown: t.markdown || undefined,
                 location: t.location || undefined,
               },
               create: {
                 description: t.description || "",
                 name: t.name || "",
                 languageCode: t.languageCode || "",
-                markdown: t.markdown || undefined,
                 location: t.location || "",
                 archive: {
                   connect: { id: data.id || "" },
