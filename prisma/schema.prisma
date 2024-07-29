@@ -382,9 +382,9 @@ model Blogs {
 model BlogsTranslations {
   id           String @id @default(cuid())
   languageCode String
-
-  headline String
-  about    String
+  headline     String
+  about        String
+  markdown     String
 
   blogs     Blogs    @relation(fields: [blogsId], references: [id], onDelete: Cascade)
   blogsId   String

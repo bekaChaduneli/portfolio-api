@@ -34,8 +34,10 @@ class CreateBlogsTranslationInput {
 
   @Field(() => String, { nullable: true })
   languageCode?: string;
-}
 
+  @Field(() => String, { nullable: true })
+  markdown?: string;
+}
 @InputType()
 class UpdateBlogsInput {
   @Field(() => String, { nullable: true })
@@ -67,6 +69,9 @@ class UpdateBlogsTranslationInput {
 
   @Field(() => String, { nullable: true })
   languageCode?: string;
+
+  @Field(() => String, { nullable: true })
+  markdown?: string;
 }
 
 @ObjectType()
@@ -93,6 +98,7 @@ export class BlogsResolver {
                 headline: t.headline || "",
                 about: t.about || "",
                 languageCode: t.languageCode || "",
+                markdown: t.markdown || "",
               })) || [],
           },
         },
@@ -122,11 +128,13 @@ export class BlogsResolver {
                 headline: t.headline || undefined,
                 about: t.about || undefined,
                 languageCode: t.languageCode || undefined,
+                markdown: t.markdown || undefined, // Handle markdown
               },
               create: {
                 headline: t.headline || "",
                 about: t.about || "",
                 languageCode: t.languageCode || "",
+                markdown: t.markdown || "", // Handle markdown
                 blogs: {
                   connect: { id: data.id || "" },
                 },
