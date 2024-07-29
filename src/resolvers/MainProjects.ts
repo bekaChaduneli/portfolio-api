@@ -138,26 +138,24 @@ export class MainProjectResolver {
   ): Promise<MainProjectResponse> {
     const mainProject = await prisma.mainProjects.create({
       data: {
-        background: data.background || "",
-        mobileBackgrounds: data.mobileBackgrounds || [],
-        link: data.link || "",
-        video: data.video || [],
-        images: data.images || [],
-        skills: data.skills || [],
-        github: data.github || "",
-        isReal: data.isReal || false,
+        background: data.background ?? "",
+        mobileBackgrounds: data.mobileBackgrounds ?? [],
+        link: data.link ?? "",
+        video: data.video ?? [],
+        images: data.images ?? [],
+        skills: data.skills ?? [],
+        github: data.github ?? "",
+        isReal: data.isReal ?? false,
         translations: {
-          createMany: {
-            data:
-              data.translations?.map((t) => ({
-                description: t.description || "",
-                name: t.name || "",
-                markdown: t.markdown || "",
-                about: t.about || "",
-                location: t.location || "",
-                languageCode: t.languageCode || "",
-              })) || [],
-          },
+          create:
+            data.translations?.map((t) => ({
+              description: t.description ?? "",
+              name: t.name ?? "",
+              markdown: t.markdown ?? "",
+              about: t.about ?? "",
+              location: t.location ?? "",
+              languageCode: t.languageCode ?? "",
+            })) ?? [],
         },
       },
     });
@@ -170,58 +168,67 @@ export class MainProjectResolver {
     @Arg("data", () => UpdateMainProjectInput) data: UpdateMainProjectInput,
     @Ctx() { prisma }: Context
   ): Promise<MainProjectResponse> {
-    const mainProject = await prisma.mainProjects.update({
-      where: { id: data.id || "" },
-      data: {
-        background: data.background || undefined,
-        mobileBackgrounds: data.mobileBackgrounds || undefined,
-        link: data.link || undefined,
-        video: data.video || undefined,
-        images: data.images || undefined,
-        skills: data.skills || undefined,
-        github: data.github || undefined,
-        isReal: data.isReal || false,
-        translations: {
-          upsert:
-            data.translations?.map((t) => ({
-              where: {
-                id: t.id || uuidv4(),
-              },
-              update: {
-                description: t.description || undefined,
-                name: t.name || undefined,
-                about: t.about || undefined,
-                markdown: t.markdown || undefined,
-                location: t.location || undefined,
-                languageCode: t.languageCode || undefined,
-              },
-              create: {
-                description: t.description || "",
-                name: t.name || "",
-                about: t.about || "",
-                location: t.location || "",
-                markdown: t.markdown || undefined,
-                languageCode: t.languageCode || "",
-                mainProjects: {
-                  connect: { id: data.id || "" },
-                },
-              },
-            })) || [],
-        },
-      } as Prisma.MainProjectsUpdateInput,
-    });
-
-    if (data.deletedTranslations) {
-      await prisma.mainProjectsTranslations.deleteMany({
-        where: {
-          id: {
-            in: data.deletedTranslations,
-          },
-        },
-      });
+    if (!data.id) {
+      throw new Error("ID is required for updating a project.");
     }
 
-    return { id: mainProject.id };
+    try {
+      const mainProject = await prisma.mainProjects.update({
+        where: { id: data.id },
+        data: {
+          background: data.background ?? undefined,
+          mobileBackgrounds: data.mobileBackgrounds ?? undefined,
+          link: data.link ?? undefined,
+          video: data.video ?? undefined,
+          images: data.images ?? undefined,
+          skills: data.skills ?? undefined,
+          github: data.github ?? undefined,
+          isReal: data.isReal ?? undefined,
+          translations: {
+            upsert:
+              data.translations?.map((t) => ({
+                where: {
+                  id: t.id ?? uuidv4(),
+                },
+                update: {
+                  description: t.description ?? undefined,
+                  name: t.name ?? undefined,
+                  about: t.about ?? undefined,
+                  markdown: t.markdown ?? undefined,
+                  location: t.location ?? undefined,
+                  languageCode: t.languageCode ?? undefined,
+                },
+                create: {
+                  description: t.description ?? "",
+                  name: t.name ?? "",
+                  about: t.about ?? "",
+                  location: t.location ?? "",
+                  markdown: t.markdown ?? undefined,
+                  languageCode: t.languageCode ?? "",
+                  mainProjects: {
+                    connect: { id: data.id },
+                  },
+                },
+              })) ?? [],
+          },
+        } as Prisma.MainProjectsUpdateInput,
+      });
+
+      if (data.deletedTranslations) {
+        await prisma.mainProjectsTranslations.deleteMany({
+          where: {
+            id: {
+              in: data.deletedTranslations,
+            },
+          },
+        });
+      }
+
+      return { id: mainProject.id };
+    } catch (error) {
+      console.error("Error in updateMainProject resolver:", error);
+      throw new Error("Unexpected error occurred during update.");
+    }
   }
 
   @Query(() => MainProjectResponse, { nullable: true })
