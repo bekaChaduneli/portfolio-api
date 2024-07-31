@@ -20,7 +20,7 @@ class CreateProfileInput {
   resume?: string;
 
   @Field(() => String, { nullable: true })
-  Image?: string;
+  image?: string;
 
   @Field(() => String, { nullable: true })
   mail?: string;
@@ -197,7 +197,7 @@ class UpdateProfileInput {
   resume?: string;
 
   @Field(() => String, { nullable: true })
-  Image?: string;
+  image?: string;
 
   @Field(() => String, { nullable: true })
   mail?: string;
@@ -385,7 +385,7 @@ export class ProfileResolver {
       data: {
         age: data.age || "",
         resume: data.resume || "",
-        Image: data.Image || "",
+        image: data. image || "",
         mail: data.mail || "",
         translations: {
           create:
@@ -419,7 +419,7 @@ export class ProfileResolver {
               hobbys: {
                 create:
                   t.hobbys?.map((h) => ({
-                    image: h.image || "",
+                    image: h. image || "",
                     translations: {
                       create:
                         h.translations?.map((ht) => ({
@@ -471,7 +471,7 @@ export class ProfileResolver {
       data: {
         age: data.age || undefined,
         resume: data.resume || undefined,
-        Image: data.Image || undefined,
+        image: data. image || undefined,
         mail: data.mail || undefined,
         translations: {
           upsert:
@@ -543,7 +543,7 @@ export class ProfileResolver {
                         id: h.id || uuidv4(),
                       },
                       update: {
-                        image: h.image || undefined,
+                        image: h. image || undefined,
                         translations: {
                           upsert:
                             h.translations?.map((ht) => ({
@@ -564,7 +564,7 @@ export class ProfileResolver {
                         },
                       },
                       create: {
-                        image: h.image || "",
+                        image: h. image || "",
                         translations: {
                           create:
                             h.translations?.map((ht) => ({
@@ -668,7 +668,7 @@ export class ProfileResolver {
                 hobbys: {
                   create:
                     t.hobbys?.map((h) => ({
-                      image: h.image || "",
+                      image: h. image || "",
                       translations: {
                         create:
                           h.translations?.map((ht) => ({
