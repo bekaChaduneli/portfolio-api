@@ -156,7 +156,10 @@ model Profile {
   resume       String
   Image        String
   socials      Socials[]
+  works        ProfileWorks[]
   translations ProfileTranslations[]
+  hobbys       Hobbys[]
+  questions    Questions[]
   mail         String
 
   createdAt DateTime @default(now())
@@ -172,17 +175,13 @@ model ProfileTranslations {
   profession      String
   location        String
   experience      String
-  works           ProfileWorks[]
   university      String
   universityAbout String
   aboutMe         String
-  profile         Profile        @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile         Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId       String
-  hobbys          Hobbys[]
-  questions       Questions[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now()) @updatedAt
 
   @@unique([profileId, languageCode])
 }
@@ -190,9 +189,9 @@ model ProfileTranslations {
 model Questions {
   id String @id @default(cuid())
 
-  profileTranslations   ProfileTranslations     @relation(fields: [profileTranslationsId], references: [id], onDelete: Cascade)
-  profileTranslationsId String                  @unique
-  translations          QuestionsTranslations[]
+  Profile      Profile                 @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId    String
+  translations QuestionsTranslations[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -215,10 +214,10 @@ model QuestionsTranslations {
 model Hobbys {
   id String @id @default(cuid())
 
-  profileTranslations   ProfileTranslations  @relation(fields: [profileTranslationsId], references: [id])
-  profileTranslationsId String               @unique
-  translations          HobbysTranslations[]
-  image                 String
+  profile      Profile              @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId    String
+  translations HobbysTranslations[]
+  image        String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -239,13 +238,13 @@ model HobbysTranslations {
 }
 
 model ProfileWorks {
-  id                    String                     @id @default(cuid())
-  workLogo              String
-  fromDate              String
-  toDate                String
-  translations          ProfileWorksTranslations[]
-  profileTranslations   ProfileTranslations        @relation(fields: [profileTranslationsId], references: [id])
-  profileTranslationsId String                     @unique
+  id           String                     @id @default(cuid())
+  workLogo     String
+  fromDate     String
+  toDate       String
+  translations ProfileWorksTranslations[]
+  profile      Profile                    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId    String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

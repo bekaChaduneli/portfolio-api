@@ -719,13 +719,23 @@ export class ProfileResolver {
     return await ctx.prisma.profile.findUnique({
       where: { id },
       include: {
-        translations: {
+        questions: {
           include: {
-            works: { include: { translations: true } },
-            hobbys: { include: { translations: true } },
-            questions: { include: { translations: true } },
+            translations: true,
           },
         },
+        hobbys: {
+          include: {
+            translations: true,
+          },
+        },
+        socials: true,
+        works: {
+          include: {
+            translations: true,
+          },
+        },
+        translations: true,
       },
     });
   }
