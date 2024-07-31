@@ -20,11 +20,11 @@ class CreatePostInput {
   @Field(() => String, { nullable: true })
   image: string | undefined;
 
-  @Field(() => String, { nullable: true })
-  likes: string | undefined;
+  @Field(() => Number, { nullable: true })
+  likes: number | undefined;
 
-  @Field(() => String, { nullable: true })
-  commentsSum: string | undefined;
+  @Field(() => Number, { nullable: true })
+  commentsSum: number | undefined;
 
   @Field(() => String, { nullable: true })
   link: string | undefined;
@@ -53,11 +53,11 @@ class UpdatePostInput {
   @Field(() => String, { nullable: true })
   image: string | undefined;
 
-  @Field(() => String, { nullable: true })
-  likes: string | undefined;
+  @Field(() => Number, { nullable: true })
+  likes: number | undefined;
 
-  @Field(() => String, { nullable: true })
-  commentsSum: string | undefined;
+  @Field(() => Number, { nullable: true })
+  commentsSum: number | undefined;
 
   @Field(() => String, { nullable: true })
   link: string | undefined;
@@ -101,8 +101,8 @@ export class PostResolver {
       data: {
         linkedinId: data.linkedinId || "",
         image: data.image || "",
-        likes: data.likes || "",
-        commentsSum: data.commentsSum || "",
+        likes: data.likes || 1,
+        commentsSum: data.commentsSum || 1,
         link: data.link || "",
         translations: {
           createMany: {
