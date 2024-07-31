@@ -24,9 +24,6 @@ class CreateTopSkillInput {
 @InputType()
 class CreateTopSkillTranslationInput {
   @Field(() => String, { nullable: true })
-  linkedinName: string | undefined;
-
-  @Field(() => String, { nullable: true })
   languageCode: string | undefined;
 
   @Field(() => String, { nullable: true })
@@ -49,9 +46,6 @@ class UpdateTopSkillInput {
 class UpdateTopSkillTranslationInput {
   @Field(() => String, { nullable: true })
   id: string | undefined;
-
-  @Field(() => String, { nullable: true })
-  linkedinName: string | undefined;
 
   @Field(() => String, { nullable: true })
   languageCode: string | undefined;
@@ -80,7 +74,6 @@ export class TopSkillResolver {
           createMany: {
             data:
               data.translations?.map((t) => ({
-                linkedinName: t.linkedinName || "",
                 languageCode: t.languageCode || "",
                 name: t.name || "",
               })) || [],
@@ -107,12 +100,10 @@ export class TopSkillResolver {
                 id: t.id || uuidv4(),
               },
               update: {
-                linkedinName: t.linkedinName || undefined,
                 languageCode: t.languageCode || undefined,
                 name: t.name || undefined,
               },
               create: {
-                linkedinName: t.linkedinName || "",
                 languageCode: t.languageCode || "",
                 name: t.name || "",
                 topSkills: {

@@ -91,20 +91,18 @@ model LinkedinTranslations {
   name         String
   bio          String
   company      String
-  languageCode String
+  languageCode String   @unique
   university   String
   linkedinId   String
   linkedin     Linkedin @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-
-  @@unique([linkedinId, languageCode])
 }
 
 model Posts {
   id           String              @id @default(uuid())
-  linkedinId   String              @unique
+  linkedinId   String
   linkedin     Linkedin            @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
   image        String?
   likes        Int
@@ -118,7 +116,6 @@ model Posts {
 
 model PostsTranslations {
   id           String @id @default(cuid())
-  linkedinName String
   languageCode String
   description  String
   postsId      String
@@ -132,7 +129,7 @@ model PostsTranslations {
 
 model TopSkills {
   id           String                  @id @default(uuid())
-  linkedinId   String                  @unique
+  linkedinId   String
   linkedin     Linkedin                @relation(fields: [linkedinId], references: [id], onDelete: Cascade)
   translations TopSkillsTranslations[]
 
@@ -142,7 +139,6 @@ model TopSkills {
 
 model TopSkillsTranslations {
   id           String     @id @default(cuid())
-  linkedinName String
   languageCode String
   name         String
   topSkillsId  String
