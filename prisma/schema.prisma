@@ -238,7 +238,7 @@ model HobbysTranslations {
 
 model Socials {
   id        String  @id @default(cuid())
-  profileId String  @unique
+  profileId String
   profile   Profile @relation(fields: [profileId], references: [id])
   name      String
   link      String
@@ -418,7 +418,7 @@ model AboutMeTranslations {
 model Works {
   id           String              @id @default(cuid())
   aboutMe      AboutMe             @relation(fields: [aboutMeId], references: [id])
-  aboutMeId    String              @unique
+  aboutMeId    String
   translations WorksTranslations[]
   link         String
   fromDate     DateTime
@@ -448,7 +448,7 @@ model WorksTranslations {
 model Educations {
   id           String                   @id @default(cuid())
   aboutMe      AboutMe                  @relation(fields: [aboutMeId], references: [id])
-  aboutMeId    String                   @unique
+  aboutMeId    String
   translations EducationsTranslations[]
   link         String
   fromDate     DateTime
@@ -477,7 +477,7 @@ model EducationsTranslations {
 model Languages {
   id           String                  @id @default(cuid())
   aboutMe      AboutMe                 @relation(fields: [aboutMeId], references: [id])
-  aboutMeId    String                  @unique
+  aboutMeId    String
   translations LanguagesTranslations[]
   createdAt    DateTime                @default(now())
   updatedAt    DateTime                @default(now()) @updatedAt
@@ -501,7 +501,7 @@ model LanguagesTranslations {
 model Certificates {
   id             String                     @id @default(cuid())
   aboutMe        AboutMe                    @relation(fields: [aboutMeId], references: [id])
-  aboutMeId      String                     @unique
+  aboutMeId      String
   translations   CertificatesTranslations[]
   link           String
   image          String
