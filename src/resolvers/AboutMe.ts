@@ -17,14 +17,14 @@ class CreateAboutMeInput {
   @Field(() => String, { nullable: true })
   image?: string;
 
-  @Field(() => String, { nullable: true })
-  experience?: string;
+  @Field(() => Number, { nullable: true })
+  experience?: number;
 
-  @Field(() => String, { nullable: true })
-  age?: string;
+  @Field(() => Number, { nullable: true })
+  age?: number;
 
-  @Field(() => String, { nullable: true })
-  projectNum?: string;
+  @Field(() => Number, { nullable: true })
+  projectNum?: number;
 
   @Field(() => [WorkInput], { nullable: true })
   works?: WorkInput[];
@@ -50,14 +50,14 @@ class UpdateAboutMeInput {
   @Field(() => String, { nullable: true })
   image?: string;
 
-  @Field(() => String, { nullable: true })
-  experience?: string;
+  @Field(() => Number, { nullable: true })
+  experience?: number;
 
-  @Field(() => String, { nullable: true })
-  age?: string;
+  @Field(() => Number, { nullable: true })
+  age?: number;
 
-  @Field(() => String, { nullable: true })
-  projectNum?: string;
+  @Field(() => Number, { nullable: true })
+  projectNum?: number;
 
   @Field(() => [WorkInput], { nullable: true })
   works?: WorkInput[];
@@ -274,9 +274,9 @@ export class AboutMeResolver {
     const aboutMe = await prisma.aboutMe.create({
       data: {
         image: data.image || "",
-        experience: data.experience || "",
-        age: data.age || "",
-        projectNum: data.projectNum || "",
+        experience: data.experience || 0,
+        age: data.age || 0,
+        projectNum: data.projectNum || 0,
         works: {
           create:
             data.works?.map((w) => ({

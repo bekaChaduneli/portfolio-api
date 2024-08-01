@@ -387,9 +387,9 @@ model AboutMe {
   id           String                @id @default(cuid())
   translations AboutMeTranslations[]
   image        String
-  experience   String
-  age          String
-  projectNum   String
+  experience   Int
+  age          Int
+  projectNum   Int
   works        Works[]
   education    Educations[]
   languages    Languages[]
