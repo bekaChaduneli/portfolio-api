@@ -28,9 +28,6 @@ class CreateProfileInput {
   @Field(() => [CreateProfileTranslationsInput], { nullable: true })
   translations?: CreateProfileTranslationsInput[];
 
-  @Field(() => [CreateProfileWorksInput], { nullable: true })
-  works?: CreateProfileWorksInput[];
-
   @Field(() => [CreateHobbysInput], { nullable: true })
   hobbys?: CreateHobbysInput[];
 
@@ -70,9 +67,6 @@ class CreateProfileTranslationsInput {
   @Field(() => String, { nullable: true })
   aboutMe?: string;
 
-  @Field(() => [CreateProfileWorksInput], { nullable: true })
-  works?: CreateProfileWorksInput[];
-
   @Field(() => [CreateHobbysInput], { nullable: true })
   hobbys?: CreateHobbysInput[];
 
@@ -108,36 +102,6 @@ class UpdateSocialsInput {
 
   @Field(() => String, { nullable: true })
   link?: string;
-}
-
-@InputType()
-class CreateProfileWorksInput {
-  @Field(() => String, { nullable: true })
-  workLogo?: string;
-
-  @Field(() => String, { nullable: true })
-  fromDate?: string;
-
-  @Field(() => String, { nullable: true })
-  toDate?: string;
-
-  @Field(() => [CreateProfileWorksTranslationInput], { nullable: true })
-  translations?: CreateProfileWorksTranslationInput[];
-}
-
-@InputType()
-class CreateProfileWorksTranslationInput {
-  @Field(() => String, { nullable: true })
-  work?: string;
-
-  @Field(() => String, { nullable: true })
-  workAbout?: string;
-
-  @Field(() => String, { nullable: true })
-  position?: string;
-
-  @Field(() => String, { nullable: true })
-  languageCode?: string;
 }
 
 @InputType()
@@ -205,9 +169,6 @@ class UpdateProfileInput {
   @Field(() => [UpdateProfileTranslationsInput], { nullable: true })
   translations?: UpdateProfileTranslationsInput[];
 
-  @Field(() => [UpdateProfileWorksInput], { nullable: true })
-  works?: UpdateProfileWorksInput[];
-
   @Field(() => [UpdateHobbysInput], { nullable: true })
   hobbys?: UpdateHobbysInput[];
 
@@ -219,9 +180,6 @@ class UpdateProfileInput {
 
   @Field(() => [String], { nullable: true })
   deletedTranslations?: string[];
-
-  @Field(() => [String], { nullable: true })
-  deletedWorks?: string[];
 
   @Field(() => [String], { nullable: true })
   deletedHobbys?: string[];
@@ -262,9 +220,6 @@ class UpdateProfileTranslationsInput {
   @Field(() => String, { nullable: true })
   aboutMe?: string;
 
-  @Field(() => [UpdateProfileWorksInput], { nullable: true })
-  works?: UpdateProfileWorksInput[];
-
   @Field(() => [UpdateHobbysInput], { nullable: true })
   hobbys?: UpdateHobbysInput[];
 
@@ -273,42 +228,6 @@ class UpdateProfileTranslationsInput {
 
   @Field(() => [UpdateSocialsInput], { nullable: true })
   socials?: UpdateSocialsInput[];
-}
-
-@InputType()
-class UpdateProfileWorksInput {
-  @Field(() => String, { nullable: true })
-  id?: string;
-
-  @Field(() => String, { nullable: true })
-  workLogo?: string;
-
-  @Field(() => String, { nullable: true })
-  fromDate?: string;
-
-  @Field(() => String, { nullable: true })
-  toDate?: string;
-
-  @Field(() => [UpdateProfileWorksTranslationInput], { nullable: true })
-  translations?: UpdateProfileWorksTranslationInput[];
-}
-
-@InputType()
-class UpdateProfileWorksTranslationInput {
-  @Field(() => String, { nullable: true })
-  id?: string;
-
-  @Field(() => String, { nullable: true })
-  work?: string;
-
-  @Field(() => String, { nullable: true })
-  workAbout?: string;
-
-  @Field(() => String, { nullable: true })
-  position?: string;
-
-  @Field(() => String, { nullable: true })
-  languageCode?: string;
 }
 
 @InputType()
@@ -385,7 +304,7 @@ export class ProfileResolver {
       data: {
         age: data.age || "",
         resume: data.resume || "",
-        image: data. image || "",
+        image: data.image || "",
         mail: data.mail || "",
         translations: {
           create:
@@ -399,27 +318,10 @@ export class ProfileResolver {
               university: t.university || "",
               universityAbout: t.universityAbout || "",
               aboutMe: t.aboutMe || "",
-              works: {
-                create:
-                  t.works?.map((w) => ({
-                    workLogo: w.workLogo || "",
-                    fromDate: w.fromDate || "",
-                    toDate: w.toDate || "",
-                    translations: {
-                      create:
-                        w.translations?.map((wt) => ({
-                          work: wt.work || "",
-                          workAbout: wt.workAbout || "",
-                          position: wt.position || "",
-                          languageCode: wt.languageCode || "",
-                        })) || [],
-                    },
-                  })) || [],
-              },
               hobbys: {
                 create:
                   t.hobbys?.map((h) => ({
-                    image: h. image || "",
+                    image: h.image || "",
                     translations: {
                       create:
                         h.translations?.map((ht) => ({
@@ -471,7 +373,7 @@ export class ProfileResolver {
       data: {
         age: data.age || undefined,
         resume: data.resume || undefined,
-        image: data. image || undefined,
+        image: data.image || undefined,
         mail: data.mail || undefined,
         translations: {
           upsert:
@@ -489,53 +391,7 @@ export class ProfileResolver {
                 university: t.university || undefined,
                 universityAbout: t.universityAbout || undefined,
                 aboutMe: t.aboutMe || undefined,
-                works: {
-                  upsert:
-                    t.works?.map((w) => ({
-                      where: {
-                        id: w.id || uuidv4(),
-                      },
-                      update: {
-                        workLogo: w.workLogo || undefined,
-                        fromDate: w.fromDate || undefined,
-                        toDate: w.toDate || undefined,
-                        translations: {
-                          upsert:
-                            w.translations?.map((wt) => ({
-                              where: {
-                                id: wt.id || uuidv4(),
-                              },
-                              update: {
-                                work: wt.work || undefined,
-                                workAbout: wt.workAbout || undefined,
-                                position: wt.position || undefined,
-                                languageCode: wt.languageCode || undefined,
-                              },
-                              create: {
-                                work: wt.work || "",
-                                workAbout: wt.workAbout || "",
-                                position: wt.position || "",
-                                languageCode: wt.languageCode || "",
-                              },
-                            })) || [],
-                        },
-                      },
-                      create: {
-                        workLogo: w.workLogo || "",
-                        fromDate: w.fromDate || "",
-                        toDate: w.toDate || "",
-                        translations: {
-                          create:
-                            w.translations?.map((wt) => ({
-                              work: wt.work || "",
-                              workAbout: wt.workAbout || "",
-                              position: wt.position || "",
-                              languageCode: wt.languageCode || "",
-                            })) || [],
-                        },
-                      },
-                    })) || [],
-                },
+
                 hobbys: {
                   upsert:
                     t.hobbys?.map((h) => ({
@@ -543,7 +399,7 @@ export class ProfileResolver {
                         id: h.id || uuidv4(),
                       },
                       update: {
-                        image: h. image || undefined,
+                        image: h.image || undefined,
                         translations: {
                           upsert:
                             h.translations?.map((ht) => ({
@@ -564,7 +420,7 @@ export class ProfileResolver {
                         },
                       },
                       create: {
-                        image: h. image || "",
+                        image: h.image || "",
                         translations: {
                           create:
                             h.translations?.map((ht) => ({
@@ -648,27 +504,11 @@ export class ProfileResolver {
                 university: t.university || "",
                 universityAbout: t.universityAbout || "",
                 aboutMe: t.aboutMe || "",
-                works: {
-                  create:
-                    t.works?.map((w) => ({
-                      workLogo: w.workLogo || "",
-                      fromDate: w.fromDate || "",
-                      toDate: w.toDate || "",
-                      translations: {
-                        create:
-                          w.translations?.map((wt) => ({
-                            work: wt.work || "",
-                            workAbout: wt.workAbout || "",
-                            position: wt.position || "",
-                            languageCode: wt.languageCode || "",
-                          })) || [],
-                      },
-                    })) || [],
-                },
+
                 hobbys: {
                   create:
                     t.hobbys?.map((h) => ({
-                      image: h. image || "",
+                      image: h.image || "",
                       translations: {
                         create:
                           h.translations?.map((ht) => ({
@@ -730,11 +570,6 @@ export class ProfileResolver {
           },
         },
         socials: true,
-        works: {
-          include: {
-            translations: true,
-          },
-        },
         translations: true,
       },
     });

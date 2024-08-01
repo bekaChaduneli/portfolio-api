@@ -156,7 +156,6 @@ model Profile {
   resume       String
   image        String
   socials      Socials[]
-  works        ProfileWorks[]
   translations ProfileTranslations[]
   hobbys       Hobbys[]
   questions    Questions[]
@@ -235,34 +234,6 @@ model HobbysTranslations {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@unique([hobbysId, languageCode])
-}
-
-model ProfileWorks {
-  id           String                     @id @default(cuid())
-  workLogo     String
-  fromDate     String
-  toDate       String
-  translations ProfileWorksTranslations[]
-  profile      Profile                    @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  profileId    String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-}
-
-model ProfileWorksTranslations {
-  id             String       @id @default(cuid())
-  languageCode   String
-  profileWorks   ProfileWorks @relation(fields: [profileWorksId], references: [id], onDelete: Cascade)
-  profileWorksId String
-  work           String
-  workAbout      String
-  position       String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
-  @@unique([profileWorksId, languageCode])
 }
 
 model Socials {
