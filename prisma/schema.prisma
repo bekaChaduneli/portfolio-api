@@ -239,7 +239,7 @@ model HobbysTranslations {
 model Socials {
   id        String  @id @default(cuid())
   profileId String
-  profile   Profile @relation(fields: [profileId], references: [id])
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   name      String
   link      String
 
@@ -417,7 +417,7 @@ model AboutMeTranslations {
 
 model Works {
   id           String              @id @default(cuid())
-  aboutMe      AboutMe             @relation(fields: [aboutMeId], references: [id])
+  aboutMe      AboutMe             @relation(fields: [aboutMeId], references: [id], onDelete: Cascade)
   aboutMeId    String
   translations WorksTranslations[]
   link         String
@@ -447,7 +447,7 @@ model WorksTranslations {
 
 model Educations {
   id           String                   @id @default(cuid())
-  aboutMe      AboutMe                  @relation(fields: [aboutMeId], references: [id])
+  aboutMe      AboutMe                  @relation(fields: [aboutMeId], references: [id], onDelete: Cascade)
   aboutMeId    String
   translations EducationsTranslations[]
   link         String
@@ -476,7 +476,7 @@ model EducationsTranslations {
 
 model Languages {
   id           String                  @id @default(cuid())
-  aboutMe      AboutMe                 @relation(fields: [aboutMeId], references: [id])
+  aboutMe      AboutMe                 @relation(fields: [aboutMeId], references: [id], onDelete: Cascade)
   aboutMeId    String
   translations LanguagesTranslations[]
   createdAt    DateTime                @default(now())
@@ -500,7 +500,7 @@ model LanguagesTranslations {
 
 model Certificates {
   id             String                     @id @default(cuid())
-  aboutMe        AboutMe                    @relation(fields: [aboutMeId], references: [id])
+  aboutMe        AboutMe                    @relation(fields: [aboutMeId], references: [id], onDelete: Cascade)
   aboutMeId      String
   translations   CertificatesTranslations[]
   link           String
