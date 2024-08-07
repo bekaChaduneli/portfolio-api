@@ -29,6 +29,9 @@ class CreateBookInput {
   @Field(() => String, { nullable: true })
   image: string | undefined;
 
+  @Field(() => Number, { nullable: true })
+  stars: number | undefined;
+
   @Field(() => Date, { nullable: true })
   releaseDate: Date | undefined;
 
@@ -76,6 +79,9 @@ class UpdateBookInput {
 
   @Field(() => String, { nullable: true })
   image: string | undefined;
+
+  @Field(() => Number, { nullable: true })
+  stars: number | undefined;
 
   @Field(() => Date, { nullable: true })
   releaseDate: Date | undefined;
@@ -128,6 +134,7 @@ export class BookResolver {
       data: {
         index: data.index || "",
         pages: data.pages || "",
+        stars: data.stars || 0,
         readedPages: data.readedPages || "",
         type: data.type || "",
         image: data.image || "",
@@ -161,6 +168,7 @@ export class BookResolver {
       data: {
         index: data.index || undefined,
         pages: data.pages || undefined,
+        stars: data.stars || 0,
         readedPages: data.readedPages || undefined,
         type: data.type || undefined,
         image: data.image || undefined,

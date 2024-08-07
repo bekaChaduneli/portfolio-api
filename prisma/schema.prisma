@@ -26,6 +26,7 @@ model Books {
   pages        String
   readedPages  String
   type         String
+  stars        Int
   image        String
   releaseDate  DateTime            @default(now())
   link         String
