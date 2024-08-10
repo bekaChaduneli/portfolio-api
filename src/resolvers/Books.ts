@@ -261,4 +261,15 @@ export class BookResolver {
       },
     });
   }
+
+  @Query(() => Number)
+  async countBooks(
+    @Arg("type", () => String) type: string,
+    @Ctx() { prisma }: Context
+  ): Promise<number> {
+    const count = await prisma.books.count({
+      where: { type },
+    });
+    return count;
+  }
 }
